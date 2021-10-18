@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Zizhang Li</title>
+  
+  <meta name="author" content="Zizhang Li">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="icon" type="image/png" href="images/zju_icon.png">
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Zizhang Li</name>
+              </p>
+              <p>I am a Master(Sep. 2021 - ) student in Control Science and Engineering department at <a href="https://www.zju.edu.cn/">Zhejiang University. I belong to <a href="https://april.zju.edu.cn/">April Lab</a>, advised by <a href="https://person.zju.edu.cn/yongliu">Prof. Yong Liu</a>.
+              </p>
+              <p>
+                I obtained my B.Eng (Sep. 2017 - Jun. 2021) from the same department. I was a research intern (Oct. 2020 - May. 2021) in foundamental vision group at <a href="https://www.sensetime.com/cn">Sensetime</a>, working with Chenxin Tao, Xizhou Zhu and mentord by <a href="https://jifengdai.org/">Jifeng Dai</a>. I was a remote research intern (Jun.2020 - Oct.2020) at <a href="https://ccvl.jhu.edu/team/">, mentored by <a href="https://weichaoqiu.com/">Dr. Weichao Qiu</a> and <a href="https://www.cs.jhu.edu/~ayuille/">Prof. Alan Yuille</a>.
+              </p>
+              <p style="text-align:center">
+                <a href="zzli@zju.edu.cn">Email</a> &nbsp/&nbsp
+                <!-- <a href="data/CV.pdf">CV</a> &nbsp/&nbsp -->
+                <a href="https://scholar.google.com/citations?hl=en&user=uVtphHMAAAAJ">Google Scholar</a> &nbsp/&nbsp
+                <a href="https://github.com/kyleleey/">Github</a>
+              </p>
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <a href="images/Zizhang_Li.jpg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/Zizhang_Li.jpg" class="hoverZoomLink"></a>
+            </td>
+          </tr>
+        </tbody></table>
+
+        <hr>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+              <td style="padding:10px;width:100%;vertical-align:middle">
+                  <heading>Recent News</heading>
+              </td>
+          </tr>
+        </tbody></table>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+              <ul>
+                <li>One paper accepted to <b>BMVC 2021</b>.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+              <ul>
+                <li>One paper accepted to <b>NeurIPS 2021</b>.</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody></table>
+        
+        <hr>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+          <td style="padding:10px;width:100%;vertical-align:middle">
+            <heading>Publications</heading>
+          </td>
+          </tr>
+        </tbody></table>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+        <tr>
+          <ul>
+            My research interests lie in the intersection of computer vision and robotics.
+          </ul>
+          <ul>
+            * indicates equal contributions.
+          </ul>
+        </tr>
+        </tbody></table>
+
+        <!-- <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Research</heading>
+              <p>
+                I'm interested in computer vision, machine learning, optimization, and image processing. Much of my research is about inferring the physical world (shape, motion, color, light, etc) from images. Representative papers are <span class="highlight">highlighted</span>.
+              </p>
+            </td>
+          </tr>
+        </tbody></table> -->
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+              <td style="padding:20px;width:35%;vertical-align:middle">
+                  <img src='images/2021TrioNet_pi.png' width="250"></div>
+                      </td>
+              <td width="75%" valign="middle">
+                  <p>
+                  <papertitle>Searching for TrioNet: Combining Convolution with Local and Global Self-Attention</papertitle>
+                  <br>
+                  <a>Huaijin Pi</a>,
+                  <a href="https://csrhddlam.github.io/">Huiyu Wang</a>,
+                  <a href="https://yingwei.li/">Yingwei Li</a>,
+                  <strong>Zizhang Li</strong>,
+                  <a href="http://www.cs.jhu.edu/~ayuille/">Alan Yuille</a>
+                  <br>
+                  <em>BMVC</em>, 2021
+                  </p>
+                  <div class="paper" id="2021trio_pi">
+                      <a>arXiv</a> /
+                      <a>code</a>
+                  </div>
+              </td>
+          </tr> <!--2021trio_pi-->
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+                <td style="padding:20px;width:35%;vertical-align:middle">
+                    <img src='images/2021PAPLoss_tao.png' width="250"></div>
+                        </td>
+                <td width="75%" valign="middle">
+                    <p>
+                    <papertitle>Searching Parameterized AP Lossfor Object Detection</papertitle>
+                    <br>
+                    <a>Chenxin Tao*</a>,
+                    <strong>Zizhang Li*</strong>,
+                    <a>Xizhou Zhu</a>,
+                    <a href="http://www.gaohuang.net/">Gao Huang</a>,
+                    <a href="https://person.zju.edu.cn/yongliu">Yong Liu</a>,
+                    <a href="https://jifengdai.org/">Jifeng Dai</a>
+                    <br>
+                    <em>NeurIPS</em>, 2021
+                    </p>
+                    <div class="paper" id="2021paploss_tao">
+                        <a>arXiv</a> /
+                        <a>code</a>
+                    </div>
+                </td>
+            </tr> <!--2021paploss_tao-->
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+                <td style="padding:20px;width:35%;vertical-align:middle">
+                    <img src='images/2021CGPart_liu.png' width="250"></div>
+                        </td>
+                <td width="75%" valign="middle">
+                    <p>
+                    <a href="https://arxiv.org/abs/2103.14098">
+                        <papertitle>CGPart: A Part Segmentation Dataset Based on 3D Computer Graphics Models</papertitle>
+                    </a>
+                    <br>
+                    <a> Qing Liu</a>,
+                    <a href="https://adamkortylewski.com/">Adam Kortylewski</a>,
+                    <a href="https://zhishuai.xyz/">Zhishuai Zhang</a>,
+                    <strong>Zizhang Li</strong>,
+                    <a>Mengqi Guo</a>,
+                    <a>Qihao Liu</a>,
+                    <a>Xiaoding Yuan</a>,
+                    <a href="https://jitengmu.github.io/">Jiteng Mu</a>,
+                    <a href="https://weichaoqiu.com/">Weichao Qiu</a>,
+                    <a href="http://www.cs.jhu.edu/~ayuille/">Alan Yuille</a>
+                    <br>
+                    <em>arXiv</em>, 2021
+                    </p>
+                    <div class="paper" id="liu2021CGPart">
+                        <a href="https://arxiv.org/abs/2103.14098">arXiv</a>
+                    </div>
+                </td>
+            </tr> <!--liu2021CGPart-->
+
+          </tbody></table>
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+              <td style="padding:0px">
+                <br>
+                <p style="text-align:right;">Template thanks to <a href="https://jonbarron.info/">Jon Barron</a></p>
+              </td>
+            </tr>
+          </tbody></table>
+        
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
