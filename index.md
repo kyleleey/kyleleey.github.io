@@ -20,10 +20,10 @@
               <p style="text-align:center">
                 <name>Zizhang Li</name>
               </p>
-              <p>I am a Master(Sep. 2021 - ) student in Control Science and Engineering department at <a href="https://www.zju.edu.cn/">Zhejiang University. I belong to <a href="https://april.zju.edu.cn/">April Lab</a>, advised by <a href="https://person.zju.edu.cn/yongliu">Prof. Yong Liu</a>.
+              <p>I am a Master(Sep. 2021 - ) student in Control Science and Engineering department at <a href="https://www.zju.edu.cn/">Zhejiang University</a>. I belong to <a href="https://april.zju.edu.cn/">April Lab</a>, advised by <a href="https://person.zju.edu.cn/yongliu">Prof. Yong Liu</a>.
               </p>
               <p>
-                I obtained my B.Eng (Sep. 2017 - Jun. 2021) from the same department. I was a research intern (Oct. 2020 - May. 2021) in foundamental vision group at <a href="https://www.sensetime.com/cn">Sensetime</a>, working with Chenxin Tao, Xizhou Zhu and mentord by <a href="https://jifengdai.org/">Jifeng Dai</a>. I was a remote research intern (Jun.2020 - Oct.2020) at <a href="https://ccvl.jhu.edu/team/">, mentored by <a href="https://weichaoqiu.com/">Dr. Weichao Qiu</a> and <a href="https://www.cs.jhu.edu/~ayuille/">Prof. Alan Yuille</a>.
+                I obtained my B.Eng (Sep. 2017 - Jun. 2021) from the same department. I was a research intern (Oct. 2020 - May. 2021) in foundamental vision group at <a href="https://www.sensetime.com/cn">Sensetime</a>, working with Chenxin Tao, Xizhou Zhu and mentored by <a href="https://jifengdai.org/">Jifeng Dai</a>. I was a remote research intern (Jun.2020 - Oct.2020) at <a href="https://ccvl.jhu.edu/team/">CCVL</a> of Johns Hopkins University, mentored by <a href="https://weichaoqiu.com/">Dr. Weichao Qiu</a> and <a href="https://www.cs.jhu.edu/~ayuille/">Prof. Alan Yuille</a>.
               </p>
               <p style="text-align:center">
                 <a href="zzli@zju.edu.cn">Email</a> &nbsp/&nbsp
