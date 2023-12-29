@@ -53,6 +53,7 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
   <!-- <script src="./static/js/index.js"></script> -->
 </head>
 <body>
@@ -253,13 +254,302 @@
             Our trained shape bank allows for interpolation between reconstructioned instances from different input images, which 
             proves our shape space is continuous and smooth.
           </p>
+          <p>
+            <span style="color: #e22c0c;">Try it yourself: </span>
+            Move the slider to interpolate shapes in the interpolated viewpoints (left), or in a fixed viewpoint (right).
+          </p>
         </div>
-        <div class="content has-text-centered">
-          <video id="horse-real" autoplay controls muted preload loop playsinline>
-            <source src="resources/video_interpolation.mp4"
-                    type="video/mp4">
-          </video>
+        
+        <!-- Images interp 0 -->
+        <div class="example-grid-cat">
+          <div>
+              <div class="square-image">
+                  <img src="resources/interpolation/0_input_0.png" alt="input">
+              </div>
+          </div>
+          <div>
+              <div class="example-grid-cat-sub">
+                  <div class="hyper-grid-wrapper">
+                      <div class="hyper-grid-rgb">
+                          <img id="00000_view_appearance" src="./resources/interpolation/0_input_view.png" alt="00000_view_appearance">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div>
+              <div class="example-grid-cat-sub">
+                  <div class="hyper-grid-wrapper">
+                      <div class="hyper-grid-rgb">
+                          <img id="00000_light_appearance" src="./resources/interpolation/0_fix_view.png" alt="00000_light_appearance">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div>
+            <div class="square-image">
+                <img src="resources/interpolation/0_input_1.png" alt="input">
+            </div>
         </div>
+      </div>
+      <div class="example-grid-cat">
+        <div><p style="text-align: center">Input Image 0</p></div>
+        <div class="example-grid-cat-sub-slide">
+            <div class="square-image">
+                <img src="resources/interpolation/render_1.png"/>
+            </div>
+            <input class="slider is-fullwidth is-middle is-warning is-circle"
+                   id="00000_view-slider"
+                   step="1" min="0" max="21" value="0" type="range">
+            <div class="square-image">
+                <img src="resources/interpolation/render_2.png"/>
+            </div>
+        </div>
+        <div class="example-grid-cat-sub-slide">
+          <div class="square-image">
+              <img src="resources/interpolation/render_1.png"/>
+          </div>
+          <input class="slider is-fullwidth is-middle is-warning is-circle"
+                 id="00000_light-slider"
+                 step="1" min="0" max="21" value="0" type="range">
+          <div class="square-image">
+              <img src="resources/interpolation/render_2.png"/>
+          </div>
+        </div>
+        <div><p style="text-align: center">Input Image 1</p></div>
+      </div>
+
+      <!-- Images interp 1 -->
+      <div class="example-grid-cat">
+        <div>
+            <div class="square-image">
+                <img src="resources/interpolation/1_input_0.png" alt="input">
+            </div>
+        </div>
+        <div>
+            <div class="example-grid-cat-sub">
+                <div class="hyper-grid-wrapper">
+                    <div class="hyper-grid-rgb">
+                        <img id="00001_view_appearance" src="./resources/interpolation/1_input_view.png" alt="00001_view_appearance">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="example-grid-cat-sub">
+                <div class="hyper-grid-wrapper">
+                    <div class="hyper-grid-rgb">
+                        <img id="00001_light_appearance" src="./resources/interpolation/1_fix_view.png" alt="00001_light_appearance">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+          <div class="square-image">
+              <img src="resources/interpolation/1_input_1.png" alt="input">
+          </div>
+      </div>
+    </div>
+    <div class="example-grid-cat">
+      <div><p style="text-align: center">Input Image 0</p></div>
+      <div class="example-grid-cat-sub-slide">
+          <div class="square-image">
+              <img src="resources/interpolation/render_1.png"/>
+          </div>
+          <input class="slider is-fullwidth is-middle is-warning is-circle"
+                 id="00001_view-slider"
+                 step="1" min="0" max="21" value="0" type="range">
+          <div class="square-image">
+              <img src="resources/interpolation/render_2.png"/>
+          </div>
+      </div>
+      <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+               id="00001_light-slider"
+               step="1" min="0" max="21" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+      </div>
+      <div><p style="text-align: center">Input Image 1</p></div>
+    </div>
+
+    <!-- Images interp 2 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/2_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00002_view_appearance" src="./resources/interpolation/2_input_view.png" alt="00002_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00002_light_appearance" src="./resources/interpolation/2_fix_view.png" alt="00002_light_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/2_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+               id="00002_view-slider"
+               step="1" min="0" max="21" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div class="example-grid-cat-sub-slide">
+      <div class="square-image">
+          <img src="resources/interpolation/render_1.png"/>
+      </div>
+      <input class="slider is-fullwidth is-middle is-warning is-circle"
+             id="00002_light-slider"
+             step="1" min="0" max="21" value="0" type="range">
+      <div class="square-image">
+          <img src="resources/interpolation/render_2.png"/>
+      </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
+    <!-- Images interp 3 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/3_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00003_view_appearance" src="./resources/interpolation/3_input_view.png" alt="00003_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00003_light_appearance" src="./resources/interpolation/3_fix_view.png" alt="00003_light_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/3_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+              id="00003_view-slider"
+              step="1" min="0" max="21" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div class="example-grid-cat-sub-slide">
+      <div class="square-image">
+          <img src="resources/interpolation/render_1.png"/>
+      </div>
+      <input class="slider is-fullwidth is-middle is-warning is-circle"
+            id="00003_light-slider"
+            step="1" min="0" max="21" value="0" type="range">
+      <div class="square-image">
+          <img src="resources/interpolation/render_2.png"/>
+      </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
+    <!-- Images interp 4 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/4_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00004_view_appearance" src="./resources/interpolation/4_input_view.png" alt="00004_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00004_light_appearance" src="./resources/interpolation/4_fix_view.png" alt="00004_light_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/4_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+              id="00004_view-slider"
+              step="1" min="0" max="21" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div class="example-grid-cat-sub-slide">
+      <div class="square-image">
+          <img src="resources/interpolation/render_1.png"/>
+      </div>
+      <input class="slider is-fullwidth is-middle is-warning is-circle"
+            id="00004_light-slider"
+            step="1" min="0" max="21" value="0" type="range">
+      <div class="square-image">
+          <img src="resources/interpolation/render_2.png"/>
+      </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
         <br>
 
         <h2 class="title is-3">Base Shape Bank Sampling</h2>
@@ -321,6 +611,15 @@
     </div>
   </div>
 </footer>
+
+<script>
+  initComparisons();
+  window.addEventListener('resize', resetComparisons);
+  linkVideos(0);
+  linkVideos(1);
+</script>
+<script type="text/javascript" src="./static/js/slick.min.js"></script>
+<script src="./static/js/main.js"></script>
 
 </body>
 </html>
