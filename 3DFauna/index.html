@@ -138,8 +138,8 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <td style="padding:20px;width:35%;vertical-align:middle">
-        <img src='resources/teaser.jpg' width="900">
+      <td style="vertical-align:middle">
+        <img src='resources/teaser.jpg'>
       </td>
       <h2 class="subtitle">
         Our method, <b>3D-Fauna</b>, learns a pan-category deformable 3D model of more than 100 different animal species using only 2D Internet images as training data, <b>without any prior shape models or keypoint annotations</b>. At test time, the model can turn a single image of an quadruped instance into an articulated, textured 3D mesh in a feed-forward manner, ready for animation and rendering.
@@ -221,29 +221,6 @@
         <div class="content has-text-centered">
           <video id="horse-real" autoplay controls muted preload loop playsinline>
             <source src="resources/video_recon.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <br>
-
-        <h2 class="title is-3">Comparison with MagicPony</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            We provide a side-by-side comparison with previous work MagicPony[1]. 3D-Fauna has reconstruction results with more accurate viewpoints and realistic articulations.
-          </p>
-        </div>
-
-        <div class="content has-text-centered">
-          <video id="horse-real" autoplay controls muted preload loop playsinline>
-            <source src="resources/compare_0.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-
-        <div class="content has-text-centered">
-          <video id="horse-real" autoplay controls muted preload loop playsinline>
-            <source src="resources/compare_1.mp4"
                     type="video/mp4">
           </video>
         </div>
@@ -499,9 +476,17 @@
 
 <section class="section" id="References">
   <div class="container is-max-desktop content">
-    <h2 class="title">References</h2>
-    [1] Shangzhe Wu, Ruining Li, Tomas Jakab, Christian Rupprecht and Andrea Vedaldi. <em>MagicPony: Learning Articulated 3D Animals in the Wild</em>. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023.<br/>
-    </div>
+    <h2 class="title">Relevant Work</h2>
+    [1] Shangzhe Wu, Tomas Jakab, Christian Rupprecht and Andrea Vedaldi. <em>Dove: Learning Deformable 3D Objects by Watching Videos</em>. International Journal of Computer Vision, 2023.<br/>
+    [2] Shangzhe Wu, Ruining Li, Tomas Jakab, Christian Rupprecht and Andrea Vedaldi. <em>MagicPony: Learning Articulated 3D Animals in the Wild</em>. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023.<br/>
+    [3] Tomas Jakab, Ruining Li, Shangzhe Wu, Christian Rupprecht and Andrea Vedaldi. <em>Farm3D: Learning Articulated 3D Animals by Distilling 2D Diffusion</em>. International Conference on 3D Vision, 2024.<br/>
+    [4] Keqiang Sun, Dor Litvak, Yunzhi Zhang, Hongsheng Li, Jiajun Wu, Shangzhe Wu. <em>Ponymation: Learning 3D Animal Motions from Unlabeled Online Videos</em>. arXiv preprint arXiv:2312.13604.<br/>
+    [5] Chun-Han Yao, Wei-Chih Hung, Yuanzhen Li, Michael Rubinstein, Ming-Hsuan Yang and Varun Jampani. <em>LASSIE: Learning Articulated Shapes from Sparse Image Ensemble via 3D Part Discovery</em>. Advances in Neural Information Processing Systems, 2022.<br/>
+    [6] Chun-Han Yao, Wei-Chih Hung, Yuanzhen Li, Michael Rubinstein, Ming-Hsuan Yang and Varun Jampani. <em>Hi-LASSIE: High-Fidelity Articulated Shape and Skeleton Discovery from Sparse Image Ensemble</em>. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023.<br/>
+    [7] Chun-Han Yao, Amit Raj, Wei-Chih Hung, Yuanzhen Li, Michael Rubinstein, Ming-Hsuan Yang and Varun Jampani. <em>ARTIC3D: Learning Robust Articulated 3D Shapes from Noisy Web Image Collections</em>. Advances in Neural Information Processing Systems, 2023.<br/>
+    [8] Gengshan Yang, Minh Vo, Natalia Neverova, Deva Ramanan, Andrea Vedaldi and Hanbyul Joo. <em>BANMo: Building Animatable 3D Neural Models from Many Casual Videos</em>. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2022.<br/>
+    [9] Gengshan Yang, Chaoyang Wang, N Dinesh Reddy and Deva Ramanan. <em>RAC: Reconstructing Animatable Categories from Videos</em>. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023.<br/>
+  </div>
 </section>
 
 <footer class="footer">
