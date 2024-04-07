@@ -172,9 +172,23 @@
           </tr> <!--sargent2023zeronvs-->
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
+          <tr onmouseout="rico_stop()" onmouseover="rico_start()">
               <td style="padding:20px;width:35%;vertical-align:middle">
-                <img align='middle' src="images/2023RICO_Li.gif" alt="RICO" style="width:auto; height:auto; max-width:100%;">
+                <div class="one">
+                  <div class="two" id = 'rico_shape'>
+                    <img src='images/2023RICO_Li_after.png' width="250"></div>
+                  <img src='images/2023RICO_Li_before.png' width="250"></div>
+                  <script type="text/javascript">
+                  function rico_start() { 
+                  document.getElementById('rico_shape').style.opacity = "1";
+                  }
+                  function rico_stop() { 
+                  document.getElementById('rico_shape').style.opacity = "0"; 
+                  }
+                  rico_stop()
+                  </script>
+                  </script>
+                <!-- <img align='middle' src="images/2023RICO_Li.gif" alt="RICO" style="width:auto; height:auto; max-width:100%;"> -->
                 <!-- <video autoplay loop muted playsinline width="320" height="100%" style="max-width: 100%;">
                   <source src="images/2023RICO_Li.mp4" type="video/mp4" alt="RICO">
                 </video> -->
