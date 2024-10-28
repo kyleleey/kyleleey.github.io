@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Our method, 3D-Fauna, learns a pan-category deformable 3D model of more than 100 different animal species using only 2D Internet images as training data.">
+  <meta name="keywords" content="3D Fauna, Unsupervised, 3D reconstruction">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning the 3D Fauna of the Web</title>
+
+  <meta property="og:image" content="resources/og_image"/>
+	<meta property="og:title" content="Learning the 3D Fauna of the Web" />
+	<meta property="og:description" content="Our method, 3D-Fauna, learns a pan-category deformable 3D model of more than 100 different animal species using only 2D Internet images as training data." />
+  <!-- Twitter automatically scrapes this. Go to https://cards-dev.twitter.com/validator?
+      if you update and want to force Twitter to re-scrape. -->
+  <meta property="twitter:card"          content="summary" />
+  <meta property="twitter:title"         content="Learning the 3D Fauna of the Web" />
+  <meta property="twitter:description"   content="Our method, 3D-Fauna, learns a pan-category deformable 3D model of more than 100 different animal species using only 2D Internet images as training data." />
+  <meta property="twitter:image"         content="resources/og_image" />
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VFNFH9CKNX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-VFNFH9CKNX');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <!-- <script src="./static/js/index.js"></script> -->
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      
+      <br>
+
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title" style="font-size: 2.2rem;">&#128015&#128021&#128001&#129420 Learning the 3D Fauna of the Web</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://kyleleey.github.io/">Zizhang Li</a><sup>1*</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://dorlitvak.github.io/">Dor Litvak</a><sup>1,2*</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://ruiningli.com/">Ruining Li</a><sup>3</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://cs.stanford.edu/~yzzhang/">Yunzhi Zhang</a><sup>1</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://www.robots.ox.ac.uk/~tomj/">Tomas Jakab</a><sup>3</sup>&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="https://chrirupp.github.io/">Christian Rupprecht</a><sup>3</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://elliottwu.com/">Shangzhe Wu</a><sup>1&#8224</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://www.robots.ox.ac.uk/~vedaldi/">Andrea Vedaldi</a><sup>3&#8224</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://jiajunwu.com/">Jiajun Wu</a><sup>1&#8224</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Stanford University</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>UT Austin</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block"><sup>3</sup>University of Oxford</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">(* Equal Contribution, &#8224 Equal Advising)</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">CVPR 2024</span>
+          </div>
+
+          <!-- PDF Link. -->
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2401.02400"
+               class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fas fa-file-pdf"></i>
+              </span>
+              <span>Paper</span>
+            </a>
+          </span>
+
+          <!-- Code Link. -->
+          <span class="link-block">
+            <a href="https://github.com/3DAnimals/3DAnimals"
+               class="external-link button is-normal is-rounded is-dark disabled">
+              <span class="icon">
+                  <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+              </a>
+          </span>
+          
+          <!-- YouTube Link. -->
+          <span class="link-block">
+            <a href="https://www.youtube.com/watch?v=z8diE3GitTY"
+               class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fab fa-youtube"></i>
+              </span>
+              <span>Video</span>
+            </a>
+          </span>
+
+          <!-- Demo Link. -->
+          <span class="link-block">
+            <a href="https://huggingface.co/spaces/Kyle-Liz/3DFauna_demo"
+               class="external-link button is-normal is-rounded is-dark disabled">
+              <span class="icon">
+                  <i class="far fa-grin-tears"></i>
+              </span>
+              <span>Demo</span>
+              </a>
+          </span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <td style="vertical-align:middle">
+        <img src='resources/teaser.jpg'>
+      </td>
+      <h2 class="subtitle" style="text-align: justify; font-size: 1.2rem;">
+        Our method, <b>3D-Fauna</b>, learns a pan-category deformable 3D model of more than 100 animal species using only 2D Internet images as training data, <b>without any prior shape models or keypoint annotations</b>. At test time, the model can turn a single image of a quadruped instance into an articulated, textured 3D mesh in a feed-forward manner, ready for animation and rendering.
+      </h2>
+    </div>
+
+    <br>
+
+    <div class="hero-body">
+      <td style="vertical-align:middle">
+        <a href="https://huggingface.co/spaces/Kyle-Liz/3DFauna_demo">
+          <img src='resources/demo_screenshot.png'>
+        </a>
+      </td>
+      <h2 class="subtitle">
+        <p style="text-align: center">Check this <a href="https://huggingface.co/spaces/Kyle-Liz/3DFauna_demo">Gradio Demo page</a> for single-view animal reconstruction.</p>
+      </h2>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Learning 3D models of all animals on the Earth requires massively scaling up existing solutions. With this ultimate goal in mind, we develop <b>3D-Fauna</b>, an approach that learns a pan-category deformable 3D animal model for more than 100 animal species jointly. One crucial bottleneck of modeling animals is the limited availability of training data, which we overcome by simply learning from 2D Internet images. We show that prior category-specific attempts fail to generalize to rare species with limited training images. We address this challenge by introducing the Semantic Bank of Skinned Models (SBSM), which automatically discovers a small set of base animal shapes by combining geometric inductive priors with semantic knowledge implicitly captured by an off-the-shelf self-supervised feature extractor. To train such a model, we also contribute a new large-scale dataset of diverse animal species. At inference time, given a single image of any quadruped animal, our model reconstructs an articulated 3D mesh in a feed-forward fashion within seconds.
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/w2f6yJARN1I?si=5_ChfA0blXb6S1BW" title="3D-Fauna" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <br>
+    <!--/ Paper video. -->
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Overview</h2>
+        <td style="padding:20px;width:35%;vertical-align:middle">
+          <img src='resources/overview.jpg' width="1000">
+        </td>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <div class="content has-text-justified">
+          <p>
+          <b>3D-Fauna</b> is trained using only single-view images from the Internet. Given each input image, it first extracts a feature vector using a pre-trained unsupervised image encoder. This is then used to query a learned memory bank to produce a base shape and a DINO feature field in the canonical pose. The model also predicts the albedo, instance-specific deformation, articulated pose and lighting, and is trained via image reconstruction losses on RGB, DINO feature map and mask, as well as a mask discriminator loss, without any prior shape models or keypoint annotations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width has-text-centered">
+        <h2 class="title is-3">Single-Image 3D Reconstruction</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Given a single image of any quadruped animal without any category information, the model reconstructs articulated 3D shape and appearance of it, which can be animated and re-rendered from arbitrary viewpoints.
+          </p>
+          <!-- <p>
+            Note: All the shapes are reconstructed by <b>the same model</b>. 
+          </p> -->
+        </div>
+
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/recon1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/recon2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+        <h2 class="title is-3">Video Frame Reconstruction</h2>
+        <div class="content has-text-justified">
+          <p>
+            We can also use one model to reconstruct different animals from video frames.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/video_recon.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+        <h2 class="title is-3">Shape Interpolation</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our trained shape bank allows for interpolation between reconstructioned instances from different input images, which proves our shape space is continuous and smooth.
+          </p>
+          <p>
+            <span style="color: #e22c0c;">Try it yourself: </span>
+            Move the slider to interpolate shapes in the interpolated viewpoints (left) and a fixed viewpoint (right).
+          </p>
+        </div>
+        
+        <!-- Images interp 0 -->
+        <div class="example-grid-cat">
+          <div>
+              <div class="square-image">
+                  <img src="resources/interpolation/0_input_0.png" alt="input">
+              </div>
+          </div>
+          <div>
+              <div class="example-grid-cat-sub">
+                  <div class="hyper-grid-wrapper">
+                      <div class="hyper-grid-rgb">
+                          <img id="00000_view_appearance" src="./resources/interpolation/0_both.png" alt="00000_view_appearance">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div>
+            <div class="square-image">
+                <img src="resources/interpolation/0_input_1.png" alt="input">
+            </div>
+        </div>
+      </div>
+      <div class="example-grid-cat">
+        <div><p style="text-align: center">Input Image 0</p></div>
+        <div class="example-grid-cat-sub-slide">
+            <div class="square-image">
+                <img src="resources/interpolation/render_1.png"/>
+            </div>
+            <input class="slider is-fullwidth is-middle is-warning is-circle"
+                   id="00000_view-slider"
+                   step="2" min="0" max="42" value="0" type="range">
+            <div class="square-image">
+                <img src="resources/interpolation/render_2.png"/>
+            </div>
+        </div>
+        <div><p style="text-align: center">Input Image 1</p></div>
+      </div>
+
+      <!-- Images interp 1 -->
+      <div class="example-grid-cat">
+        <div>
+            <div class="square-image">
+                <img src="resources/interpolation/1_input_0.png" alt="input">
+            </div>
+        </div>
+        <div>
+            <div class="example-grid-cat-sub">
+                <div class="hyper-grid-wrapper">
+                    <div class="hyper-grid-rgb">
+                        <img id="00001_view_appearance" src="./resources/interpolation/1_both.png" alt="00001_view_appearance">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+          <div class="square-image">
+              <img src="resources/interpolation/1_input_1.png" alt="input">
+          </div>
+      </div>
+    </div>
+    <div class="example-grid-cat">
+      <div><p style="text-align: center">Input Image 0</p></div>
+      <div class="example-grid-cat-sub-slide">
+          <div class="square-image">
+              <img src="resources/interpolation/render_1.png"/>
+          </div>
+          <input class="slider is-fullwidth is-middle is-warning is-circle"
+                 id="00001_view-slider"
+                 step="2" min="0" max="42" value="0" type="range">
+          <div class="square-image">
+              <img src="resources/interpolation/render_2.png"/>
+          </div>
+      </div>
+      <div><p style="text-align: center">Input Image 1</p></div>
+    </div>
+
+    <!-- Images interp 2 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/2_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00002_view_appearance" src="./resources/interpolation/2_both.png" alt="00002_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/2_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+               id="00002_view-slider"
+               step="2" min="0" max="42" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
+    <!-- Images interp 3 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/3_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00003_view_appearance" src="./resources/interpolation/3_both.png" alt="00003_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/3_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+              id="00003_view-slider"
+              step="2" min="0" max="42" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
+    <!-- Images interp 4 -->
+    <div class="example-grid-cat">
+      <div>
+          <div class="square-image">
+              <img src="resources/interpolation/4_input_0.png" alt="input">
+          </div>
+      </div>
+      <div>
+          <div class="example-grid-cat-sub">
+              <div class="hyper-grid-wrapper">
+                  <div class="hyper-grid-rgb">
+                      <img id="00004_view_appearance" src="./resources/interpolation/4_both.png" alt="00004_view_appearance">
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div>
+        <div class="square-image">
+            <img src="resources/interpolation/4_input_1.png" alt="input">
+        </div>
+    </div>
+  </div>
+  <div class="example-grid-cat">
+    <div><p style="text-align: center">Input Image 0</p></div>
+    <div class="example-grid-cat-sub-slide">
+        <div class="square-image">
+            <img src="resources/interpolation/render_1.png"/>
+        </div>
+        <input class="slider is-fullwidth is-middle is-warning is-circle"
+              id="00004_view-slider"
+              step="2" min="0" max="42" value="0" type="range">
+        <div class="square-image">
+            <img src="resources/interpolation/render_2.png"/>
+        </div>
+    </div>
+    <div><p style="text-align: center">Input Image 1</p></div>
+  </div>
+
+        <br>
+
+        <h2 class="title is-3">Base Shape Bank Sampling</h2>
+        <div class="content has-text-justified">
+          <p>
+            We can also directly sample numerous and diverse shapes from the trained shape bank.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/video_bank_sampling_small.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{li2024learning,
+  title     = {Learning the 3D Fauna of the Web},
+  author    = {Li, Zizhang and Litvak, Dor and Li, Ruining and Zhang, Yunzhi and Jakab, Tomas and Rupprecht, Christian and Wu, Shangzhe and Vedaldi, Andrea and Wu, Jiajun},
+  journal   = {arXiv preprint arXiv:2401.02400},
+  year      = {2024}
+}</code></pre>
+  </div>
+</section>
+
+
+<section class="section" id="Acknowledgements">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgements</h2>
+    <p>
+      We are very grateful to Cristobal Eyzaguirre, Kyle Sargent, Yunhao Ge for insightful discussions, and Chen Geng for proofreading. The work is in part supported by the Stanford Institute for Human-Centered AI (HAI), NSF RI #2211258, ONR MURI N00014-22-1-2740, the Samsung Global Research Outreach (GRO) program, Amazon, Google, and EPSRC VisualAI EP/T028572/1.
+    </p>
+    <!-- <p>
+      Keqiang Sun is supported by CUHK.
+    </p> -->
+  </div>
+</section>
+
+<section class="section" id="References">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Relevant Work</h2>
+    <a href="https://dove3d.github.io/">Dove: Learning Deformable 3D Objects by Watching Videos. <em>IJCV 2023</em>.</a><br/>
+    <a href="https://3dmagicpony.github.io/">MagicPony: Learning Articulated 3D Animals in the Wild. <em>CVPR 2023</em>.</a><br/>
+    <a href="https://farm3d.github.io/">Farm3D: Learning Articulated 3D Animals by Distilling 2D Diffusion. <em>3DV 2024</em>.</a><br/>
+    <a href="https://keqiangsun.github.io/projects/ponymation/">Ponymation: Learning 3D Animal Motions from Unlabeled Online Videos. <em>Arxiv 2023</em>.</a><br/>
+    <a href="https://mehmetaygun.github.io/saor">SAOR: Single-View Articulated Object Reconstruction. <em>Arxiv 2023</em>.</a><br/>
+    <a href="https://chhankyao.github.io/lassie/">LASSIE: Learning Articulated Shape from Sparse Image Ensemble via 3D Part Discovery. <em>NeurIPS 2022</em>.</a><br/>
+    <a href="https://chhankyao.github.io/hi-lassie/">Hi-LASSIE: High-Fidelity Articulated Shape and Skeleton Discovery from Sparse Image Ensemble. <em>CVPR 2023</em>.</a><br/>
+    <a href="https://chhankyao.github.io/artic3d/">ARTIC3D: Learning Robust Articulated 3D Shapes from Noisy Web Image Collections. <em>NeurIPS 2023</em>.</a><br/>
+    <a href="https://banmo-www.github.io/index.html">BANMo: Building Animatable 3D Neural Models from Many Casual Videos. <em>CVPR 2022</em>.</a><br/>
+    <a href="https://gengshan-y.github.io/rac-www/">RAC: Reconstructing Animatable Categories from Videos. <em>CVPR 2023</em>.</a><br/>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This webpage template is adapted from <a
+            href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>,
+            <a href="https://3dmagicpony.github.io/">MagicPony</a> and <a href="https://cs.stanford.edu/~yzzhang/projects/rose/">Rose</a>, under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  initComparisons();
+  window.addEventListener('resize', resetComparisons);
+  linkVideos(0);
+  linkVideos(1);
+</script>
+<script type="text/javascript" src="./static/js/slick.min.js"></script>
+<script src="./static/js/main.js"></script>
+
+</body>
+</html>
