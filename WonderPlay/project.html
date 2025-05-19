@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="keywords" content="Action-conditioned Dynamics, interacting dynamics">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WonderPlay</title>
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+
+    <link rel="stylesheet" href="static/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/video-gallery.css">
+    <link rel="stylesheet" href="static/css/teaser.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+    <script defer src="static/js/fontawesome.all.min.js"></script>
+    <script src="https://kit.fontawesome.com/d383128d10.js"></script>
+    <script src="static/js/bulma-carousel.min.js"></script>
+    <script src="static/js/bulma-slider.min.js"></script>
+    <script src="static/js/index.js"></script>
+    <script src="static/js/fontawesome.min.js"></script>
+    <script src="static/js/video-gallery.js"></script>
+    <script src="static/js/teaser.js"></script>
+</head>
+
+<style>
+    #canvas-container {
+        background-color: rgb(178, 178, 178);
+    }
+    #canvas {
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+    }
+    .container{
+        max-width: 1000px;
+    }
+    .arrow {
+        border: solid black;
+        border-width: 0 4px 4px 0;
+
+        position: absolute;
+        top: 50%;
+
+        width: 20px;
+        height: 20px;
+        -webkit-transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+        cursor: pointer;
+    }
+
+    .right {
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        right: -25px;
+    }
+
+    .left {
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        left: -25px;
+    }
+
+    .nav-item img {
+        max-width: 100%;
+         
+        height: auto;
+        display: block;
+    }
+
+    .nav-item p {
+        text-align: center;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 500;
+        line-height: 1.5rem;
+        font-size: 1.2rem;
+        color: black;
+    }
+
+    .interactive-item {
+        align-content: center;
+    }
+
+    .interactive-item video {
+        max-width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .interactive-item p {
+        text-align: center;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 500;
+        line-height: 1.5rem;
+        font-size: 1.2rem;
+        color: black;
+    }
+
+    .interactive-container {
+        margin-bottom: 0rem;
+        display: grid !important;
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr;
+        gap: 0% 1%;
+        justify-content: center;
+    }
+
+    .generated-container {
+      margin-bottom: 1rem;
+      display: grid !important;
+      grid-template-columns: 100%;
+      grid-template-rows: 1fr;
+      gap: 0% 1%;
+      justify-content: center;
+  }
+
+    .teaser-item {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    .two-column-section {
+      display: flex;
+      width: 100%;
+      border-left: 10px;
+      border-right: 10px;
+    }
+    
+    .two-column-section .column {
+        padding: 0px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .two-column-section .first-column {
+        width: 37%;
+        padding-left: 2%;
+    }
+    
+    .two-column-section .second-column {
+        width: 63%;
+        padding-right: 2%;
+    }
+
+</style>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">WonderPlay: Dynamic 3D Scene Generation <br> from a Single Image and Actions</h1>
+                        <div class="is-size-5 publication-authors" style="font-family: inherit; font-size: 2rem;" >
+                            <!-- Paper authors -->
+                            <span class="author-block">
+                                <a href="https://kyleleey.github.io/" target="_blank">Zizhang Li</a><sup>*</sup><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <span class="author-block">
+                                <a href="https://kovenyu.com/" target="_blank">Hong-Xing "Koven" Yu</a><sup>*</sup><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <span class="author-block"></span>
+                                <a href="https://www.linkedin.com/in/wliu283/?locale=en_US" target="_blank">Wei Liu</a><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <br>
+                            <span class="author-block">
+                                <a href="https://yangzzzy.github.io/" target="_blank">Yin Yang</a><sup>2</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <span class="author-block"></span>
+                                <a href="https://scholar.google.com/citations?user=LQvi5XAAAAAJ&hl=en" target="_blank">Charles Herrmann</a><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <span class="author-block"></span>
+                                <a href="https://stanford.edu/~gordonwz/" target="_blank">Gordon Wetzstein</a><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <span class="author-block">
+                                <a href="https://jiajunwu.com/" target="_blank">Jiajun Wu</a><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
+                            </span>
+                            <br>
+                            <sup>1</sup>Stanford University &nbsp&nbsp
+                            <sup>2</sup>University of Utah
+                            <br>
+                            <sup>*</sup>Contributed Equally
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- teaser -->
+    <!-- <section class="hero teaser">
+        <div class="hero-body">
+            <div class="container">
+                <figure class="image">
+                    <video controls muted loop autoplay>
+                        <source src="assets/teaser_video_dy_new.mp4" type="video/mp4">
+                    </video>
+                </figure>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="hero teaser">
+        <div class="hero-body">
+            <div class="container">
+
+                <h2 class="title is-2">What actions can we apply to the tea party in Alice in the Wonderland?</h2>
+
+                <div class="teaser-instructions">
+                    <p class="instruction-text">
+                        Click on each action icon <img src="assets/teaser/tap.png" alt="tap" class="inline-icon"> to see the generated dynamic scenes and input actions,
+                        described in text and also overlaid with videos.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 1rem;"></div>
+
+                <div class="teaser-container">
+                    <!-- Main static image with hotspots -->
+                    <div class="main-view active">
+                        <img src="assets/teaser/full_scene.jpg" alt="Full Scene" class="main-image">
+                        
+                        <!-- Interactive regions -->
+                        <div class="hotspot" data-region="region1" style="left: 50%; top: 70%;">
+                            <div class="hotspot-marker">
+                                <img src="assets/teaser/tap.png" alt="tap icon">
+                            </div>
+                            <div class="hotspot-tooltip">Dripping the honey on the cake</div>
+                        </div>
+    
+                        <div class="hotspot" data-region="region2" style="left: 60%; top: 10%;">
+                            <div class="hotspot-marker">
+                                <img src="assets/teaser/tap.png" alt="tap icon">
+                            </div>
+                            <div class="hotspot-tooltip">Letting wind blown away the hat</div>
+                        </div>
+    
+                        <div class="hotspot" data-region="region3" style="left: 20%; top: 70%;">
+                            <div class="hotspot-marker">
+                                <img src="assets/teaser/tap.png" alt="tap icon">
+                            </div>
+                            <div class="hotspot-tooltip">Adding a breeze</div>
+                        </div>
+    
+                        <div class="hotspot" data-region="region4" style="left: 95%; top: 75%;">
+                            <div class="hotspot-marker">
+                                <img src="assets/teaser/tap.png" alt="tap icon">
+                            </div>
+                            <div class="hotspot-tooltip">Pushing down the wine glass</div>
+                        </div>
+                    </div>
+    
+                    <!-- Video container for zoom and interaction -->
+                    <div class="video-view">
+                        <button class="back-button">Back</button>
+                        <video id="zoom-in-video"></video>
+                        <video id="interaction-video" loop></video>
+                        <video id="zoom-out-video"></video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End teaser -->
+
+    <!-- Results -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2">Qualitative Results</h2>
+                
+                <figure class="image">
+                    <figcaption>
+                        WonderPlay generates dynamic 3D scenes from a single image and input actions. 
+                        Here, we present video results rendered with a moving camera, overlaid with action visualizations. 
+                        Please click on the images to explore results on different scenarios.
+                </figcaption>
+                </figure>
+
+                <div style="margin-bottom: 1rem;"></div>
+
+                <!-- Scene buttons -->
+                <div class="video-gallery-buttons" id="gallery-buttons-results">
+                    <button class="scene-button is-primary" data-video-index="0">
+                        <img src="assets/results/venice.png" alt="Scene 1">
+                    </button>
+                    <button class="scene-button" data-video-index="1">
+                        <img src="assets/results/cloth_hang_image.png" alt="Scene 2">
+                    </button>
+                    <button class="scene-button" data-video-index="2">
+                        <img src="assets/results/smoke_shoe_image.png" alt="Scene 3">
+                    </button>
+                    <button class="scene-button" data-video-index="3">
+                        <img src="assets/results/smoke_can_image.png" alt="Scene 4">
+                    </button>
+                    <button class="scene-button" data-video-index="4">
+                        <img src="assets/results/flower_wind_image.png" alt="Scene 5">
+                    </button>
+                    <button class="scene-button" data-video-index="5">
+                        <img src="assets/results/add_wine.png" alt="Scene 6">
+                    </button>
+                    <button class="scene-button" data-video-index="6">
+                        <img src="assets/results/snow_man.png" alt="Scene 7">
+                    </button>
+                    <button class="scene-button" data-video-index="7">
+                        <img src="assets/results/tree_wind_image.jpg" alt="Scene 8">
+                    </button>
+                </div>
+
+                <!-- Video gallery carousel -->
+                <div class="video-gallery-carousel" id="gallery-carousel-results">
+
+                    <div class="video-gallery-item active">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop autoplay>
+                                    <source src="assets/results/venice.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/cloth_hang.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/smoke_shoe.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/smoke_can.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/flower_wind.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/add_wine_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/snow_man_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/results/tree_wind.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End More Results-->
+
+    <!-- Different Actions -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2">Different Actions</h2>
+                
+                <figure class="image">
+                    <figcaption>
+                        WonderPlay leverages underlying physical simulation to generate diverse dynamics from the same image by altering the input actions. 
+                        Please click on different images and their corresponding action text buttons to view the results of various actions.
+                </figcaption>
+                </figure>
+
+                <div style="margin-bottom: 1rem;"></div>
+
+                <!-- Scene buttons -->
+                <div class="video-gallery-buttons" id="gallery-buttons-diff-actions-scenes">
+                    <button class="scene-button is-primary" data-video-index="0">
+                        <img src="assets/diff_interaction/jam_cake.png" alt="Scene 1">
+                    </button>
+                    <button class="scene-button" data-video-index="1">
+                        <img src="assets/diff_interaction/smoke_burner.png" alt="Scene 2">
+                    </button>
+                    <button class="scene-button" data-video-index="2">
+                        <img src="assets/diff_interaction/clothes_two.png" alt="Scene 3">
+                    </button>
+                    <button class="scene-button" data-video-index="3">
+                        <img src="assets/diff_interaction/sand_tower.png" alt="Scene 4">
+                    </button>
+                </div>
+
+                <div class="video-gallery-buttons" id="gallery-buttons-diff-actions">
+                    <button class="button is-action-button is-primary" data-video-index="0">
+                        <p>Pour the jam ...</p>
+                    </button>
+                    <button class="button is-action-button" data-video-index="1">
+                        <p>... with moving & shaking</p>
+                    </button>
+                    <button class="button is-action-button" data-video-index="2">
+                        <p>... with moving left & right</p>
+                    </button>
+                    <button class="button is-action-button" data-video-index="3">
+                        <p>... with much more jam!</p>
+                    </button>
+                </div>
+
+                <div class="video-gallery-carousel" id="gallery-carousel-diff-actions">
+                    <div class="video-gallery-item active">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop autoplay>
+                                    <source src="assets/diff_interaction/jam_cake_2_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/jam_cake_3_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/jam_cake_1_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/jam_cake_4_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/smoke_burner_1_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/smoke_burner_2_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/smoke_burner_3_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/smoke_burner_4_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/clothes_two_1_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/clothes_two_2_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/clothes_two_3_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/clothes_two_4_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/sand_tower_1_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/sand_tower_3.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/sand_tower_4_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source src="assets/diff_interaction/sand_tower_2_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Different Actions-->
+
+    <!-- Comparisons -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2">Comparisons on diverse scenes and materials</h2>
+                
+                <figure class="image">
+                    <figcaption>
+                        WonderPlay supports dynamic 3D scene generation across a wide range of scenes and materials. 
+                        Here, we show side-by-side comparisons with different physics-based and video generation-based baselines. 
+                        Please click on the images and baselines buttons to view the comparisons.
+                </figure>
+
+                <div style="margin-bottom: 1rem;"></div>
+
+                <!-- Second row of buttons -->
+                <div class="video-gallery-buttons" style="margin-top: 0.5rem;">
+                    <button class="scene-button is-primary" data-video-index="0">
+                        <img src="assets/comparisons/boat_river.png" alt="Scene 1">
+                    </button>
+                    <button class="scene-button" data-video-index="4">
+                        <img src="assets/comparisons/persimmon.jpg" alt="Scene 2">
+                    </button>
+                    <button class="scene-button" data-video-index="8">
+                        <img src="assets/comparisons/sand_castle.png" alt="Scene 3">
+                    </button>
+                    <button class="scene-button" data-video-index="12">
+                        <img src="assets/comparisons/to_water_duck.png" alt="Scene 4">
+                    </button>
+                    <button class="scene-button" data-video-index="16">
+                        <img src="assets/comparisons/venice.png" alt="Scene 5">
+                    </button>
+                </div>
+
+                <div class="video-gallery-buttons" id="gallery-buttons-nvs">
+                    
+                    <button class="button is-two-line is-primary" data-video-index="0">
+                        <p>Ours vs PhysGen </p>
+                    </button>
+                    <button class="button is-two-line" data-video-index="1">
+                        <p>Ours vs PhysGaussian</p>
+                    </button>
+                    <button class="button is-two-line" data-video-index="2">
+                        <p>Ours vs Tora</p>
+                    </button>
+                    <button class="button is-two-line" data-video-index="3">
+                        <p>Ours vs CogVideoX-I2V</p>
+                    </button>
+                </div>
+
+                <!-- Video gallery carousel with 20 items -->
+                <div class="video-gallery-carousel" id="gallery-carousel-nvs">
+                    <div class="video-gallery-item active">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/boat_river_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/boat_river__0_1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGen</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/boat_river_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/boat_river__0_2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGaussian</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/boat_river_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/boat_river__0_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">Tora</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/boat_river_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/boat_river__0_4.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">CogVideoX-I2V</div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/persimmon_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/persimmon__0_1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGen</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/persimmon_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/persimmon__0_2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGaussian</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/persimmon_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/persimmon__0_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">Tora</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/persimmon_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/persimmon__0_4.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">CogVideoX-I2V</div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/sand_castle_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/sand_castle__0_1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGen</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/sand_castle_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/sand_castle__0_2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGaussian</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/sand_castle_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/sand_castle__0_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">Tora</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/sand_castle_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/sand_castle__0_4.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">CogVideoX-I2V</div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/to_water_duck_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/to_water_duck__0_1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGen</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/to_water_duck_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/to_water_duck__0_2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGaussian</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/to_water_duck_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/to_water_duck__0_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">Tora</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/to_water_duck_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/to_water_duck__0_4.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">CogVideoX-I2V</div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/venice_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/venice__0_1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGen</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/venice_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/venice__0_2.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">PhysGaussian</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/venice_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/venice__0_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">Tora</div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                            <img src="assets/comparisons/venice_action.png" 
+                                 alt="Action visualization" 
+                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
+                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                Input Image & Action
+                            </p>
+                        </div>
+                        <video preload="none" controls muted loop height="100%">
+                            <source src="assets/comparisons/venice__0_4.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-caption">
+                            <div class="caption-left">Ours</div>
+                            <div class="caption-right">CogVideoX-I2V</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Comparisons-->
+
+    <!-- <section class="hero is-small">
+        <div class="hero-body">
+            <div style="margin-bottom: 5rem;"></div>
+            <div class="container">
+                <div id="message" style="color: red; text-align: center;"></div>
+                <div id="spinner" style="text-align: center; display: none;">Loading...</div>
+                <div id="canvas-container" style="width: 480px; height: 480px; margin: auto;">
+                    <canvas id="canvas" width="480" height="480" style="width: 100%; height: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+  
+    </section> -->
+  
+
+    <!-- Abstract -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2"  style="margin-bottom: 0.5rem;">Abstract</h2>
+                <figure class="image">
+                    <figcaption>
+                        WonderPlay is a novel framework integrating physics simulation with video generation for 
+                        generating action-conditioned dynamic 3D scenes from a single image. 
+                        Our hybrid generative simulator first uses a physics solver to simulate coarse 3D dynamics, 
+                        which subsequently conditions a video generator to produce a video with finer, more realistic motion. 
+                        The generated video is then used to update the simulated dynamic 3D scene, closing the loop between the physics solver and the video generator. 
+                        This approach enables intuitive user control to be combined with the accurate 
+                        dynamics of physics-based simulators and the expressivity of diffusion-based video generators. 
+                        Experimental results demonstrate that WonderPlay enables users to interact with various scenes of diverse content, 
+                        including cloth, sand, snow, liquid, smoke, elasticity, and rigid bodies -- all using a single image input.
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+    <!--End abstract -->
+
+    <!--BibTex citation -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2" style="margin-bottom: 1rem;">BibTex</h2>
+                <div class="bibtex-container">
+                    <button id="bibtex-copy-button" class="button is-small is-info" style="position: absolute; top: 0.5rem; right: 0.5rem;">
+                        <span class="icon">
+                            <i class="fas fa-copy"></i>
+                        </span>
+                        <span>Copy</span>
+                    </button>
+                    <pre class="bibtex-code-block"><code id="bibtex-code" class="bibtex-code">@InProceedings{li2025wonderplay,
+    title     = {WonderPlay: Dynamic 3D Scene Generation from a Single Image and Actions},
+    author    = {Li, Zizhang and Yu, Hong-Xing and Liu, Wei and Yang, Yin and Herrmann, Charles and Wetzstein, Gordon and Wu, Jiajun},
+    booktitle = {arXiv preprint arXiv:},
+    year      = {2025},
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End BibTex citation -->
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content has-text-centered">
+                        <p>
+                            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+                            <br>
+                            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- <script src="static/js/canvas.js"></script> -->
+    <script src="static/js/canvas_blink.js"></script>
+</body>
+
+</html>
