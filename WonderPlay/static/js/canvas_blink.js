@@ -408,6 +408,17 @@ function createWorker(self) {
             if (buffer && !sortGenerated) {
                 runSort(viewProj);
             }
+        } else if (e.data.clear) {
+            buffer = null;
+            vertexCount = 0;
+            lastVertexCount = 0;
+            depthIndex = new Uint32Array();
+            lastProj = [];
+            pendingTexdata = null;
+            pendingDepthIndex = null;
+            textureGenerated = false;
+            sortGenerated = false;
+            return;
         }
     };
 }
@@ -511,10 +522,33 @@ async function main() {
     if (spinnerEl) spinnerEl.style.display = "block";
     if (messageEl) messageEl.innerText = "Downloading splats…";
 
+    // Load static and dynamic data once at the beginning
     const staticBytes = await fetchUint8(DATA_DIR + STATIC_FN);            // Uint8Array
-    const dynamicRaw  = await Promise.all(
-        Array.from({ length: T }, (_, i) => fetchUint8(DATA_DIR + FRAME_FMT(i)))
-    );
+    
+    // Show progress for dynamic frames
+    if (messageEl) messageEl.innerText = "Downloading dynamic frames...";
+    const dynamicRaw = [];
+    
+    // Load frames in batches to avoid memory pressure
+    const BATCH_SIZE = 5;
+    for (let batch = 0; batch < Math.ceil(T/BATCH_SIZE); batch++) {
+        const start = batch * BATCH_SIZE;
+        const end = Math.min(start + BATCH_SIZE, T);
+        
+        // Process a batch
+        const batchPromises = [];
+        for (let i = start; i < end; i++) {
+            batchPromises.push(fetchUint8(DATA_DIR + FRAME_FMT(i)));
+        }
+        
+        // Wait for batch to complete
+        const batchResults = await Promise.all(batchPromises);
+        for (const result of batchResults) {
+            dynamicRaw.push(result);
+        }
+        
+        if (messageEl) messageEl.innerText = `Loaded ${dynamicRaw.length}/${T} frames...`;
+    }
 
     if (spinnerEl) spinnerEl.style.display = "none";
     if (messageEl) messageEl.innerText = "";
@@ -607,38 +641,85 @@ async function main() {
     use_intrinsics(active_camera);
     use_extrinsics(active_camera);
 
-    /* ---------------- worker ---------------- */
-    const worker = new Worker(URL.createObjectURL(new Blob([`(${createWorker.toString()})(self)`], { type: "application/javascript" })));
-    let vertexCount = 0;
-    worker.onmessage = (e) => {
-        if (e.data.type === 'frame_ready') {
-            // console.log(`Main: Received complete frame ${e.data.frameId} with ${e.data.vertexCount} vertices, texwidth=${e.data.texwidth}, texheight=${e.data.texheight}`);
-            
-            // Update texture
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, e.data.texwidth, e.data.texheight, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, e.data.texdata);
-            
-            // Update index buffer
-            gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
-            gl.bufferData(gl.ARRAY_BUFFER, e.data.depthIndex, gl.DYNAMIC_DRAW);
-            vertexCount = e.data.vertexCount;
-        } else if (e.data.depthIndex) {
-            // Handle legacy message format (non-atomic updates)
-            if (!ATOMIC_UPDATES) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
-                gl.bufferData(gl.ARRAY_BUFFER, e.data.depthIndex, gl.DYNAMIC_DRAW);
-                vertexCount = e.data.vertexCount;
+    /* ---------------- worker setup ---------------- */
+    // Create a modified worker that better handles memory
+    const modifiedWorkerCode = createWorker.toString().replace(
+        'self.onmessage = (e) => {',
+        `self.onmessage = (e) => {
+            // Reset state when receiving a clear command
+            if (e.data.clear) {
+                buffer = null;
+                vertexCount = 0;
+                lastVertexCount = 0;
+                depthIndex = new Uint32Array();
+                lastProj = [];
+                pendingTexdata = null;
+                pendingDepthIndex = null;
+                textureGenerated = false;
+                sortGenerated = false;
+                return;
             }
-        } else if (e.data.texdata) {
-            // Handle legacy message format (non-atomic updates)
-            if (!ATOMIC_UPDATES) {
+        `
+    );
+    
+    const worker = new Worker(URL.createObjectURL(new Blob([`(${modifiedWorkerCode})(self)`], { type: "application/javascript" })));
+    
+    let vertexCount = 0;
+    let currentFrameProcessing = false;
+    let lastFrameProcessed = -1;
+    
+    // Function to reset worker state - useful for handling memory issues
+    function resetWorker() {
+        worker.postMessage({ clear: true });
+        currentFrameProcessing = false;
+    }
+    
+    // Handler for worker messages with improved error recovery
+    worker.onmessage = (e) => {
+        try {
+            if (e.data.type === 'frame_ready') {
+                // Update texture
                 gl.bindTexture(gl.TEXTURE_2D, texture);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, e.data.texwidth, e.data.texheight, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, e.data.texdata);
+                
+                // Update index buffer
+                gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
+                gl.bufferData(gl.ARRAY_BUFFER, e.data.depthIndex, gl.DYNAMIC_DRAW);
+                vertexCount = e.data.vertexCount;
+                
+                lastFrameProcessed = e.data.frameId;
+                currentFrameProcessing = false;
+                
+                if (messageEl && e.data.frameId === 0) {
+                    messageEl.innerText = "First frame rendered";
+                    setTimeout(() => { if (messageEl) messageEl.innerText = ""; }, 1000);
+                }
+            } else if (e.data.depthIndex) {
+                // Process individual depth index update
+                gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
+                gl.bufferData(gl.ARRAY_BUFFER, e.data.depthIndex, gl.DYNAMIC_DRAW);
+                vertexCount = e.data.vertexCount;
+                
+                if (!ATOMIC_UPDATES) {
+                    currentFrameProcessing = false;
+                }
+                
+                console.log("Received depthIndex update");
+            } else if (e.data.texdata) {
+                // Process individual texture update
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, e.data.texwidth, e.data.texheight, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, e.data.texdata);
+                
+                console.log("Received texture update");
             }
+        } catch (err) {
+            console.error("Error in worker message handler:", err);
+            currentFrameProcessing = false;
+            resetWorker();
         }
     };
 
@@ -650,27 +731,16 @@ async function main() {
     const frameMs = 1000 / PLAY_FPS;
     let lastSwap = performance.now();
 
-    // Add these variables for frame synchronization - simplify initial state
+    // Diagnostic values to help track memory issues
     let frameId = 0;
-    let pendingFrameId = -1;
-    let frameReady = false; // Start as not ready
-    let textureReady = false;
-    let sortReady = false;
-    
-    // Function to check if frame is ready
-    function checkFrameReady() {
-        // console.log(`Main: Checking frame ${frameId} - texture: ${textureReady}, sort: ${sortReady}`);
-        if (textureReady && sortReady) {
-            frameReady = true;
-            // console.log(`Main: Frame ${frameId} is ready to render`);
-        }
-    }
+    let lastMemoryCheck = performance.now();
+    let consecutiveErrors = 0;
     
     // Calculate FPS for debugging
     let frameCount = 0;
     let lastFpsUpdate = 0;
 
-    // Modify the loop function with a simpler approach
+    // Modified loop with improved memory management
     const loop = (now) => {
         requestAnimationFrame(loop);
         
@@ -678,13 +748,11 @@ async function main() {
         frameCount++;
         if (now - lastFpsUpdate >= 1000) {
             const fps = Math.round((frameCount * 1000) / (now - lastFpsUpdate));
-            // console.log(`Rendering at ${fps} FPS, Target: ${PLAY_FPS} FPS`);
             frameCount = 0;
             lastFpsUpdate = now;
         }
         
         // First handle movement and view updates
-        let viewChanged = false;
         let inv = invert4(defaultViewMatrix);
         
         if (keys.has("KeyJ")) yaw -= 0.01;
@@ -739,30 +807,61 @@ async function main() {
         const viewProj = multiply4(projectionMatrix, actualViewMatrix);
         gl.uniformMatrix4fv(u_view, false, viewMatrix);
         
-        // Handle frame changes - without sync
-        if (now - lastSwap > frameMs) {
-            lastSwap = now;
-            frameIdx = (frameIdx + 1) % T;
-            frameId++;
-            
-            // Prepare the new frame
-            const dyn = dynamicRaw[frameIdx];
-            const comb = new Uint8Array(staticBytes.length + dyn.length);
-            comb.set(staticBytes);
-            comb.set(dyn, staticBytes.length);
-            
-            // Send buffer with current frameId
-            worker.postMessage({ 
-                buffer: comb.buffer, 
-                vertexCount: comb.length / ROW_LEN,
-                frameId: frameId
-            });
-            
-            // Also send the current view for sorting
-            worker.postMessage({ 
-                view: viewProj, 
-                frameId: frameId
-            });
+        // Handle frame changes with better memory management
+        if (now - lastSwap > frameMs && !currentFrameProcessing) {
+            try {
+                lastSwap = now;
+                frameIdx = (frameIdx + 1) % T;
+                frameId++;
+                
+                // Memory safety check - if we're experiencing issues, force a reset
+                if (now - lastMemoryCheck > 30000) { // Every 30 seconds
+                    resetWorker();
+                    lastMemoryCheck = now;
+                    consecutiveErrors = 0;
+                }
+                
+                // Create a fresh buffer for this frame only when needed
+                currentFrameProcessing = true;
+                const dyn = dynamicRaw[frameIdx];
+                
+                if (!dyn) {
+                    console.error(`Missing dynamic frame ${frameIdx}`);
+                    currentFrameProcessing = false;
+                    return;
+                }
+                
+                // Create a new buffer for this frame that will be transferred
+                const frameBuffer = new ArrayBuffer(staticBytes.length + dyn.length);
+                const frameData = new Uint8Array(frameBuffer);
+                
+                // Copy data into the buffer
+                frameData.set(staticBytes);
+                frameData.set(dyn, staticBytes.length);
+                
+                // Send buffer with current frameId - transfer ownership to reduce memory usage
+                worker.postMessage({ 
+                    buffer: frameBuffer, 
+                    vertexCount: frameData.length / ROW_LEN,
+                    frameId: frameId
+                }, [frameBuffer]); // Transfer buffer ownership
+                
+                // Also send the current view for sorting
+                worker.postMessage({ 
+                    view: viewProj, 
+                    frameId: frameId
+                });
+            } catch (err) {
+                console.error("Error preparing frame:", err);
+                currentFrameProcessing = false;
+                consecutiveErrors++;
+                
+                if (consecutiveErrors > 3) {
+                    // If we're consistently having problems, reset the worker
+                    resetWorker();
+                    consecutiveErrors = 0;
+                }
+            }
         }
         
         // Always render the current state
@@ -773,16 +872,38 @@ async function main() {
     };
     
     // Initialize the first frame
-    const initialComb = new Uint8Array(staticBytes.length + dynamicRaw[0].length);
-    initialComb.set(staticBytes);
-    initialComb.set(dynamicRaw[0], staticBytes.length);
-    
-    // Send initial buffer
-    worker.postMessage({ 
-        buffer: initialComb.buffer, 
-        vertexCount: initialComb.length / ROW_LEN,
-        frameId: frameId
-    });
+    try {
+        currentFrameProcessing = true;
+        
+        if (messageEl) messageEl.innerText = "Preparing first frame...";
+        
+        // Create initial buffer
+        const initialBuffer = new ArrayBuffer(staticBytes.length + dynamicRaw[0].length);
+        const initialData = new Uint8Array(initialBuffer);
+        initialData.set(staticBytes);
+        initialData.set(dynamicRaw[0], staticBytes.length);
+        
+        // Important: Send the view matrix first to ensure the worker has it
+        const viewProj = multiply4(projectionMatrix, viewMatrix);
+        worker.postMessage({ 
+            view: viewProj,
+            frameId: 0
+        });
+        
+        // Then send the buffer - use a copy instead of transferring for the first frame
+        // to ensure we don't have race conditions with view matrix
+        worker.postMessage({ 
+            buffer: initialData.buffer.slice(0), // Send a copy instead of transferring
+            vertexCount: initialData.length / ROW_LEN,
+            frameId: 0
+        });
+        
+        if (messageEl) messageEl.innerText = "First frame sent to worker...";
+    } catch (err) {
+        console.error("Error initializing first frame:", err);
+        if (messageEl) messageEl.innerText = "Error: " + err.message;
+        currentFrameProcessing = false;
+    }
     
     // Start the loop
     requestAnimationFrame(loop);
