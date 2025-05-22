@@ -21,28 +21,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // Define text button content for each scene
   const sceneTextButtons = {
     0: [ // Jam scene
-      "Pour the jam ...",
-      "... with moving & shaking",
-      "... with moving left & right",
-      "... with much more jam!"
+      "Pour the jam onto the cake",
+      "Pour while moving & shaking",
+      "Pour while moving left & right",
+      "Pour much more jam"
     ],
     1: [ // Smoke scene
-      "Smoke emitting up ...",
-      "... with mild breeze towards left",
-      "... with strong breeze towards left",
-      "... with strong breeze towards right"
+      "Emit smoke",
+      "Breeze mildly towards left",
+      "Breeze strongly towards right",
+      "Breeze strongly towards left & right"
     ],
     2: [ // Clothes scene
-      "Sway in breeze towards left",
-      "or in oscillating breeze",
-      "or one towards left, one oscillating", 
-      "or one towards right, one oscillating"
+      "Breeze towards left",
+      "Breeze left & right",
+      "Breeze in mixed ways", 
+      "Breeze in mixed ways"
     ],
     3: [ // Sand scene
-      "Force pointing downwards ...",
-      "... also towards right",
-      "... also towards left ...",
-      "... and making the sand sparser"
+      "Pull downward",
+      "Pull towards right",
+      "Pull towards left",
+      "Make the sand castle thinner"
     ]
   };
 
