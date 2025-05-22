@@ -45,6 +45,23 @@
     .container{
         max-width: 1000px;
     }
+    .publication-title {
+        font-weight: 700 !important;
+    }
+    .title.is-2 {
+        font-weight: 600 !important;
+    }
+    figure figcaption {
+        font-size: 1.2rem !important;
+    }
+    .instruction-text {
+        font-size: 1.2rem !important;
+    }
+    .instruction-text-center {
+        font-size: 1.2rem !important;
+        text-align: center;
+        font-weight: 700 !important;
+    }
     .arrow {
         border: solid black;
         border-width: 0 4px 4px 0;
@@ -52,8 +69,8 @@
         position: absolute;
         top: 50%;
 
-        width: 20px;
-        height: 20px;
+        width: 1rem;
+        height: 1rem;
         -webkit-transform: translate(0, -50%);
         -ms-transform: translate(0, -50%);
         transform: translate(0, -50%);
@@ -164,8 +181,8 @@
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      gap: 20px;
-      margin: 0 auto;
+      gap: 1rem;
+      margin: 1rem 0 0 0;
       max-width: 1200px;
     }
 
@@ -192,6 +209,58 @@
         flex-direction: column;
       }
     }
+
+    .resource-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background:rgb(35, 38, 59);
+        color: #FFFFFF !important;
+        border-radius: 30px;
+        padding: 8px 16px 9px;
+        transition: transform 200ms;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px, rgba(0, 0, 0, 0.24) 0px 1px 1px;
+        text-decoration: none;
+
+        font-family: 'Mulish', sans-serif;
+        font-weight: 500;
+        line-height: 1.5rem;
+        font-size: 1.0rem;
+    }
+
+    .resource-button:hover{
+        color: #FFFFFF !important;
+        text-decoration: underline;
+        text-decoration-color: #FFFFFF;
+    }
+
+    .resource-button:visited {
+        color: #FFFFFF !important;
+    }
+
+    .button-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    .list-inline {
+        padding-left: 0;
+        list-style: none;
+    }
+    .list-inline-item {
+        display: inline-block;
+    }
+    .mt-m4 {
+        margin-top: -1.5rem;
+    }
+    .teaser-container {
+        margin-top: 1rem;
+    }
+
+    #gallery-buttons-nvs {
+        margin-top: 0;
+    }
 </style>
 
 <body>
@@ -202,7 +271,7 @@
                 <div class="columns is-centered">
                     <div class="column has-text-centered">
                         <h1 class="title is-1 publication-title">WonderPlay: Dynamic 3D Scene Generation <br> from a Single Image and Actions</h1>
-                        <div class="is-size-5 publication-authors" style="font-family: inherit; font-size: 2rem;" >
+                        <div class="is-size-5" style="font-family: inherit; font-size: 2rem;" >
                             <!-- Paper authors -->
                             <span class="author-block">
                                 <a href="https://kyleleey.github.io/" target="_blank">Zizhang Li</a><sup>*</sup><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
@@ -227,10 +296,30 @@
                                 <a href="https://jiajunwu.com/" target="_blank">Jiajun Wu</a><sup>1</sup>&nbsp&nbsp&nbsp&nbsp
                             </span>
                             <br>
-                            <sup>1</sup>Stanford University &nbsp&nbsp
-                            <sup>2</sup>University of Utah
-                            <br>
-                            <sup>*</sup>Contributed Equally
+                            <div style="margin-top: 1rem;">
+                                <sup>1</sup>Stanford University &nbsp&nbsp
+                                <sup>2</sup>University of Utah
+                                <br>
+                                <sup>*</sup>Contributed Equally
+                            </div>
+                            <div class="row" id="resources" style="margin-top: 3rem;">
+                                <div class="col text-center mt-m4">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a href="https://arxiv.org/abs/2405.xxxxx" class="resource-button">
+                                                <img src="assets/icons/paper_icon_rev.png" class="button-icon">
+                                                Paper
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://github.com/kyleleey/WonderPlay" class="resource-button">
+                                                <img src="assets/icons/github_icon_rev.png" class="button-icon">
+                                                Code (Coming Soon)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
@@ -254,20 +343,16 @@
 
     <section class="hero teaser">
         <div class="hero-body">
-            <div class="container">
-
-                <h2 class="title is-2">What actions can we apply to the tea party in Alice in the Wonderland?</h2>
+            <div class="container is-max-desktop">
+                <h2 class="title is-2">What Actions Can We Apply in This Tea Party?</h2>
 
                 <div class="teaser-instructions">
                     <p class="instruction-text">
-                        Click on each action icon <img src="assets/teaser/tap.png" alt="tap" class="inline-icon"> to see the generated dynamic scenes and input actions,
-                        described in text and also overlaid with videos.
+                        Click on each action icon <img src="assets/teaser/tap.png" alt="tap" class="inline-icon"> to see the generated dynamic scenes and input actions.
                     </p>
                 </div>
 
-                <div style="margin-bottom: 1rem;"></div>
-
-                <div class="teaser-container">
+                <div class="teaser-container" style="width: 100%;">
                     <!-- Main static image with hotspots -->
                     <div class="main-view active">
                         <img src="assets/teaser/full_scene.jpg" alt="Full Scene" class="main-image">
@@ -279,21 +364,21 @@
                             </div>
                             <div class="hotspot-tooltip">Dripping the honey on the cake</div>
                         </div>
-    
+
                         <div class="hotspot" data-region="region2" style="left: 60%; top: 10%;">
                             <div class="hotspot-marker">
                                 <img src="assets/teaser/tap.png" alt="tap icon">
                             </div>
                             <div class="hotspot-tooltip">Letting wind blown away the hat</div>
                         </div>
-    
+
                         <div class="hotspot" data-region="region3" style="left: 20%; top: 70%;">
                             <div class="hotspot-marker">
                                 <img src="assets/teaser/tap.png" alt="tap icon">
                             </div>
                             <div class="hotspot-tooltip">Adding a breeze</div>
                         </div>
-    
+
                         <div class="hotspot" data-region="region4" style="left: 95%; top: 75%;">
                             <div class="hotspot-marker">
                                 <img src="assets/teaser/tap.png" alt="tap icon">
@@ -301,7 +386,7 @@
                             <div class="hotspot-tooltip">Pushing down the wine glass</div>
                         </div>
                     </div>
-    
+
                     <!-- Video container for zoom and interaction -->
                     <div class="video-view">
                         <button class="back-button">Back</button>
@@ -325,11 +410,10 @@
                     <figcaption>
                         WonderPlay generates dynamic 3D scenes from a single image and input actions. 
                         Here, we present video results rendered with a moving camera, overlaid with action visualizations. 
-                        Please click on the images to explore results on different scenarios.
-                </figcaption>
+                    </figcaption>
                 </figure>
 
-                <div style="margin-bottom: 1rem;"></div>
+                
 
                 <!-- Scene buttons -->
                 <div class="video-gallery-buttons" id="gallery-buttons-results">
@@ -363,7 +447,7 @@
                 <div class="video-gallery-carousel" id="gallery-carousel-results">
 
                     <div class="video-gallery-item active">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop autoplay>
@@ -374,7 +458,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/results/cloth_hang.mp4" type="video/mp4">
@@ -384,7 +468,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -395,7 +479,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -406,7 +490,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -417,7 +501,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -428,7 +512,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -439,7 +523,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
@@ -462,12 +546,10 @@
                 
                 <figure class="image">
                     <figcaption>
-                        WonderPlay leverages underlying physical simulation to generate diverse dynamics from the same image by altering the input actions. 
-                        Please click on different images and their corresponding action text buttons to view the results of various actions.
-                </figcaption>
+                        WonderPlay synthesizes different dynamics scenes from the same image by altering the input actions
+                        and predicting the corresponding dynamic outcomes. Click on an image and an action to view the dynamic outcome.
+                    </figcaption>
                 </figure>
-
-                <div style="margin-bottom: 1rem;"></div>
 
                 <!-- Scene buttons -->
                 <div class="video-gallery-buttons" id="gallery-buttons-diff-actions-scenes">
@@ -502,7 +584,7 @@
 
                 <div class="video-gallery-carousel" id="gallery-carousel-diff-actions">
                     <div class="video-gallery-item active">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop autoplay>
                                     <source src="assets/diff_interaction/jam_cake_2_icon.mp4" type="video/mp4">
@@ -511,7 +593,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/jam_cake_3_icon.mp4" type="video/mp4">
@@ -520,7 +602,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/jam_cake_1_icon.mp4" type="video/mp4">
@@ -529,7 +611,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/jam_cake_4_icon.mp4" type="video/mp4">
@@ -539,7 +621,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/smoke_burner_1_icon.mp4" type="video/mp4">
@@ -548,7 +630,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/smoke_burner_2_icon.mp4" type="video/mp4">
@@ -557,7 +639,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/smoke_burner_3_icon.mp4" type="video/mp4">
@@ -566,7 +648,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/smoke_burner_4_icon.mp4" type="video/mp4">
@@ -576,7 +658,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/clothes_two_1_icon.mp4" type="video/mp4">
@@ -585,7 +667,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/clothes_two_2_icon.mp4" type="video/mp4">
@@ -594,7 +676,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/clothes_two_3_icon.mp4" type="video/mp4">
@@ -603,7 +685,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/clothes_two_4_icon.mp4" type="video/mp4">
@@ -613,7 +695,7 @@
                     </div>
 
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/sand_tower_1_icon.mp4" type="video/mp4">
@@ -621,8 +703,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                    <div class="video-gallery-item">    
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/sand_tower_3.mp4" type="video/mp4">
@@ -631,7 +713,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/sand_tower_4_icon.mp4" type="video/mp4">
@@ -640,7 +722,7 @@
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center; margin: 30px auto;">
+                        <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
                                     <source src="assets/diff_interaction/sand_tower_2_icon.mp4" type="video/mp4">
@@ -659,20 +741,20 @@
     <section class="hero is-small">
         <div class="hero-body">
             <div class="container">
-                <h2 class="title is-2">Comparisons on diverse scenes and materials</h2>
+                <h2 class="title is-2">Comparisons with Physics- and Video-Based Methods</h2>
                 
                 <figure class="image">
                     <figcaption>
                         WonderPlay supports dynamic 3D scene generation across a wide range of scenes and materials. 
                         Here, we show side-by-side comparisons with different physics-based and video generation-based baselines. 
                         Please click on the images and baselines buttons to view the comparisons.
-                </figcaption>
+                    </figcaption>
                 </figure>
 
-                <div style="margin-bottom: 1rem;"></div>
+                
 
                 <!-- Second row of buttons -->
-                <div class="video-gallery-buttons" style="margin-top: 0.5rem;">
+                <div class="video-gallery-buttons">
                     <button class="scene-button is-primary" data-video-index="0">
                         <img src="assets/comparisons/boat_river.png" alt="Scene 1">
                     </button>
@@ -709,11 +791,11 @@
                 <!-- Video gallery carousel with 20 items -->
                 <div class="video-gallery-carousel" id="gallery-carousel-nvs">
                     <div class="video-gallery-item active">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/boat_river_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -722,16 +804,16 @@
                             <source src="assets/comparisons/boat_river__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGen</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/boat_river_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -739,16 +821,16 @@
                             <source src="assets/comparisons/boat_river__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGaussian</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/boat_river_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -756,16 +838,16 @@
                             <source src="assets/comparisons/boat_river__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">Tora</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/boat_river_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -773,17 +855,17 @@
                             <source src="assets/comparisons/boat_river__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">CogVideoX-I2V</div>
                         </div>
                     </div>
 
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/persimmon_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -791,16 +873,16 @@
                             <source src="assets/comparisons/persimmon__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGen</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/persimmon_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -808,16 +890,16 @@
                             <source src="assets/comparisons/persimmon__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGaussian</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/persimmon_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -825,16 +907,16 @@
                             <source src="assets/comparisons/persimmon__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">Tora</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/persimmon_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -842,17 +924,17 @@
                             <source src="assets/comparisons/persimmon__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">CogVideoX-I2V</div>
                         </div>
                     </div>
 
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/sand_castle_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -860,16 +942,16 @@
                             <source src="assets/comparisons/sand_castle__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGen</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/sand_castle_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -877,16 +959,16 @@
                             <source src="assets/comparisons/sand_castle__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGaussian</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/sand_castle_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -894,16 +976,16 @@
                             <source src="assets/comparisons/sand_castle__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">Tora</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/sand_castle_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -911,17 +993,17 @@
                             <source src="assets/comparisons/sand_castle__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">CogVideoX-I2V</div>
                         </div>
                     </div>
 
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/to_water_duck_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -929,16 +1011,16 @@
                             <source src="assets/comparisons/to_water_duck__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGen</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/to_water_duck_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -946,16 +1028,16 @@
                             <source src="assets/comparisons/to_water_duck__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGaussian</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/to_water_duck_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -963,16 +1045,16 @@
                             <source src="assets/comparisons/to_water_duck__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">Tora</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/to_water_duck_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -980,17 +1062,17 @@
                             <source src="assets/comparisons/to_water_duck__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">CogVideoX-I2V</div>
                         </div>
                     </div>
 
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/venice_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -998,16 +1080,16 @@
                             <source src="assets/comparisons/venice__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGen</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/venice_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -1015,16 +1097,16 @@
                             <source src="assets/comparisons/venice__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">PhysGaussian</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/venice_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -1032,16 +1114,16 @@
                             <source src="assets/comparisons/venice__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">Tora</div>
                         </div>
                     </div>
                     <div class="video-gallery-item">
-                        <div style="margin-top: 20px; margin-bottom: 20px; text-align: center;">  <!-- Adjust margin as needed -->
+                        <div style="margin-bottom: 1rem; text-align: center;">
                             <img src="assets/comparisons/venice_action.png" 
                                  alt="Action visualization" 
-                                 style="width: 300px; height: auto; margin-bottom: 10px;">  <!-- Adjust width as needed -->
-                            <p style="font-size: 1.5rem; font-weight: bold; color: var(--text-color); text-align: center;">
+                                 style="width: 300px; height: auto;">
+                            <p class="instruction-text-center">
                                 Input Image & Action
                             </p>
                         </div>
@@ -1049,7 +1131,7 @@
                             <source src="assets/comparisons/venice__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
-                            <div class="caption-left">Ours</div>
+                            <div class="caption-left">WonderPlay (Ours)</div>
                             <div class="caption-right">CogVideoX-I2V</div>
                         </div>
                     </div>
@@ -1062,66 +1144,77 @@
 
     <section class="hero is-small">
         <div class="hero-body">
-            <div style="margin-bottom: 2rem;"></div>
             <div class="container">
-                <h2 class="title is-2" style="margin-bottom: 0.5rem;">Generated 4D scene</h2>
+                <h2 class="title is-2">Interactive Viewer of Generated Dynamic 3D Scene</h2>
                 <figure class="image">
                     <figcaption>
-                        The generated video can be further used to update the underlying 4D scenes.
-                        Here on the left we show the input image overlaid with action visualization, on the right
-                        is the updated 4D WonderWorld scene.
+                        View the generated dynamic scene in the interactive viewer below. Navigate with your keyboard.
+                        We extend the generated scene beyond what are in the input image by the <a href="https://kovenyu.com/wonderworld/" target="_blank">WonderWorld</a> approach to create a mini world.
+                        <br>
+                        <strong>Keyboard</strong>: Move by "W/A/S/D", look around by "I/J/K/L".
+                        <br>
+                        <strong>Touch Screen</strong>: Move by one-finger drag, look around by two-finger drag.
                     </figcaption>
                 </figure>
-
-                <p style="font-size: 1.2rem;">You may move by "W/A/S/D" and look around by "I/J/K/L".</p>
                 
-                <div style="margin-bottom: 2rem;"></div>
 
                 <div class="image-canvas-combo">
-                    <div class="image-container" style="width: 40%;">
+                    <div class="image-container" style="max-width: 256px;">
                         <img src="assets/venice_w_icon.png" alt="Demo Image">
+                        <p class="instruction-text-center" style="margin-top: 0.5rem;">
+                            Input Image & Action
+                        </p>
                     </div>
-                    <div class="canvas-container" style="width: 55%;">
+                    <div class="canvas-container" style="max-width: 720px;">
                         <!-- <div id="message" style="color: red; text-align: center;"></div> -->
                         <!-- <div id="spinner" style="text-align: center; display: none;">Loading...</div> -->
                         <canvas id="canvas" width="720" height="480"></canvas>
+                        <p class="instruction-text-center" style="margin-top: 0.5rem;">
+                            Interactive Viewer
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div style="margin-bottom: 2rem;"></div>
-  
-
     <!-- Abstract -->
     <section class="hero is-small">
         <div class="hero-body">
             <div class="container">
-                <h2 class="title is-2"  style="margin-bottom: 0.5rem;">Abstract</h2>
+                <h2 class="title is-2">Abstract</h2>
                 <figure class="image">
                     <figcaption>
-                        WonderPlay is a novel framework integrating physics simulation with video generation for 
-                        generating action-conditioned dynamic 3D scenes from a single image. 
-                        Our hybrid generative simulator first uses a physics solver to simulate coarse 3D dynamics, 
-                        which subsequently conditions a video generator to produce a video with finer, more realistic motion. 
-                        The generated video is then used to update the simulated dynamic 3D scene, closing the loop between the physics solver and the video generator. 
-                        This approach enables intuitive user control to be combined with the accurate 
-                        dynamics of physics-based simulators and the expressivity of diffusion-based video generators. 
-                        Experimental results demonstrate that WonderPlay enables users to interact with various scenes of diverse content, 
-                        including cloth, sand, snow, liquid, smoke, elasticity, and rigid bodies -- all using a single image input.
+                        WonderPlay is a novel framework integrating physics simulation with video generation for generating action-conditioned dynamic 3D scenes from a single image. While prior works are restricted to rigid body or simple elastic dynamics, WonderPlay features a hybrid generative simulator to synthesize a wide range of 3D dynamics. The hybrid generative simulator first uses a physics solver to simulate coarse 3D dynamics, which subsequently conditions a video generator to produce a video with finer, more realistic motion. The generated video is then used to update the simulated dynamic 3D scene, closing the loop between the physics solver and the video generator. This approach enables intuitive user control to be combined with the accurate dynamics of physics-based simulators and the expressivity of diffusion-based video generators. Experimental results demonstrate that WonderPlay enables users to interact with various scenes of diverse content, including cloth, sand, snow, liquid, smoke, elastic, and rigid bodies -- all using a single image input. Code will be made public.
                     </figcaption>
                 </figure>
+
+                
             </div>
         </div>
     </section>
     <!--End abstract -->
 
+    <!--Related Projects -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2">Related Projects</h2>
+                <div class="content">
+                    <ul class="instruction-text" style="margin: 0">
+                        <li>[CVPR2025] <a href="https://kovenyu.com/wonderworld/" target="_blank"><strong>WonderWorld</strong>: Interactive 3D Scene Generation from a Single Image</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Related Projects -->
+
     <!--BibTex citation -->
     <section class="hero is-small">
         <div class="hero-body">
             <div class="container">
-                <h2 class="title is-2" style="margin-bottom: 1rem;">BibTex</h2>
+                <h2 class="title is-2">BibTex</h2>
                 <div class="bibtex-container">
                     <button id="bibtex-copy-button" class="button is-small is-info" style="position: absolute; top: 0.5rem; right: 0.5rem;">
                         <span class="icon">
@@ -1141,23 +1234,8 @@
     </section>
     <!--End BibTex citation -->
 
+    <div style="margin-bottom: 5rem;"></div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-8">
-                    <div class="content has-text-centered">
-                        <p>
-                            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-                            <br>
-                            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- <script src="static/js/canvas.js"></script> -->
     <script src="static/js/canvas_blink.js"></script>
 </body>
 

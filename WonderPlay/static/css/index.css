@@ -139,7 +139,7 @@ body {
   gap: 0.1rem; /* Space between buttons */
   width: 100%;
   max-width: 500px; /* Adjust this value to control overall width */
-  margin: 1rem auto; /* Centers the grid */
+  margin: 0 0 1rem 0; /* Centers the grid */
   justify-content: center; /* Centers the grid horizontally */
   align-items: stretch; /* Makes all buttons same height in each row */
 }

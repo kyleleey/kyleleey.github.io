@@ -1,10 +1,3 @@
-/* ======= Animation config ======= */
-const DATA_DIR   = "./assets/splats/";           // where all splats live
-const STATIC_FN  = "static.splat";
-const T          = 49;                     // number of dynamic frames
-const FRAME_FMT  = f => `${String(f).padStart(3,"0")}_dynamic.splat`;
-const PLAY_FPS   = 10;                      // playback speed
-/* ================================= */
 
 let defaultViewMatrix = [-1, 0, 0, 0,
     0, -1, 0, 0,
@@ -17,12 +10,10 @@ let defaultViewMatrix = [-1, 0, 0, 0,
 let yaw = 0;   // Rotation around the Y-axis
 let pitch = 0; // Rotation around the X-axis
 let movement = [0, 0, 0]; // Movement vector initialized to 0,0,0
-const render_width = 512;
-const render_height = 512;
+const render_width = 970;
+const render_height = 485;
 let bbox = [-9999, 9999, -9999, 9999, -9999, 9999, -9999, 9999];
 let radius = 9999;
-const rowLength = 32;
-const ROW_LEN = 32;    
 
 const cameras = [
     {
@@ -224,10 +215,9 @@ function createWorker(self) {
         const f_buffer = new Float32Array(buffer);
         const u_buffer = new Uint8Array(buffer);
 
-        var texwidth = 2048; // 1024 * 2; // Set to your desired width
+        var texwidth = 1024 * 2; // Set to your desired width
         var texheight = Math.ceil((2 * vertexCount) / texwidth); // Set to your desired height
         var texdata = new Uint32Array(texwidth * texheight * 4); // 4 components per pixel (RGBA)
-        texdata.fill(0);
         var texdata_c = new Uint8Array(texdata.buffer);
         var texdata_f = new Float32Array(texdata.buffer);
 
@@ -235,7 +225,6 @@ function createWorker(self) {
         // With a little bit more foresight perhaps this texture file
         // should have been the native format as it'd be very easy to
         // load it into webgl.
-        
         for (let i = 0; i < vertexCount; i++) {
             // x, y, z
             texdata_f[8 * i + 0] = f_buffer[8 * i + 0];
@@ -288,168 +277,64 @@ function createWorker(self) {
             texdata[8 * i + 4] = packHalf2x16(4 * sigma[0], 4 * sigma[1]);
             texdata[8 * i + 5] = packHalf2x16(4 * sigma[2], 4 * sigma[3]);
             texdata[8 * i + 6] = packHalf2x16(4 * sigma[4], 4 * sigma[5]);
-
-            // if (i == 1) {
-            //     console.log("Color bytes:", u_buffer.slice(32 * i + 24, 32 * i + 28));
-            // }
         }
 
         self.postMessage({ texdata, texwidth, texheight }, [texdata.buffer]);
     }
 
-    // function runSort(viewProj) {
-    //     if (!buffer) return;
-    //     const f_buffer = new Float32Array(buffer);
-    //     if (lastVertexCount == vertexCount) {
-    //         let dot =
-    //             lastProj[2] * viewProj[2] +
-    //             lastProj[6] * viewProj[6] +
-    //             lastProj[10] * viewProj[10];
-    //         if (Math.abs(dot - 1) < 0.01) {
-    //             return;
-    //         }
-    //     } else {
-    //         generateTexture();
-    //         lastVertexCount = vertexCount;
-    //     }
-
-    //     console.time("sort");
-    //     let maxDepth = -Infinity;
-    //     let minDepth = Infinity;
-    //     let sizeList = new Int32Array(vertexCount);
-    //     for (let i = 0; i < vertexCount; i++) {
-    //         let depth =
-    //             ((viewProj[2] * f_buffer[8 * i + 0] +
-    //                 viewProj[6] * f_buffer[8 * i + 1] +
-    //                 viewProj[10] * f_buffer[8 * i + 2]) *
-    //                 4096) |
-    //             0;
-    //         sizeList[i] = depth;
-    //         if (depth > maxDepth) maxDepth = depth;
-    //         if (depth < minDepth) minDepth = depth;
-    //     }
-
-    //     // This is a 16 bit single-pass counting sort
-    //     let depthInv = (256 * 256) / (maxDepth - minDepth);
-    //     let counts0 = new Uint32Array(256 * 256);
-    //     for (let i = 0; i < vertexCount; i++) {
-    //         sizeList[i] = ((sizeList[i] - minDepth) * depthInv) | 0;
-    //         counts0[sizeList[i]]++;
-    //     }
-    //     let starts0 = new Uint32Array(256 * 256);
-    //     for (let i = 1; i < 256 * 256; i++)
-    //         starts0[i] = starts0[i - 1] + counts0[i - 1];
-    //     depthIndex = new Uint32Array(vertexCount);
-    //     for (let i = 0; i < vertexCount; i++)
-    //         depthIndex[starts0[sizeList[i]]++] = i;
-
-    //     console.timeEnd("sort");
-
-    //     lastProj = viewProj;
-    //     self.postMessage({ depthIndex, viewProj, vertexCount }, [
-    //         depthIndex.buffer,
-    //     ]);
-    // }
-    function runSort(currentViewProj) { // Changed parameter name for clarity
-        if (!buffer || vertexCount === 0) return; // Added check for vertexCount > 0
+    function runSort(viewProj) {
+        if (!buffer) return;
         const f_buffer = new Float32Array(buffer);
-    
-        // --- Check if sort is necessary based on view change ---
-        // (This check is now primarily done in the onmessage handler for view updates)
-        // We might still keep a basic check here if needed, but the main logic moved.
-        /*
-        if (lastSortVertexCount === vertexCount && lastProj.length > 0) { // Use lastSortVertexCount
+        if (lastVertexCount == vertexCount) {
             let dot =
-                lastProj[2] * currentViewProj[2] +
-                lastProj[6] * currentViewProj[6] +
-                lastProj[10] * currentViewProj[10];
-            // If view hasn't changed much, potentially skip the expensive sort
-            if (Math.abs(dot - 1.0) < 0.01) {
-                 // console.log("Skipping sort: View unchanged."); // Optional log
-                 // Post the *existing* depth index again if needed by main thread logic
-                 // self.postMessage({ depthIndex: depthIndex.buffer, viewProj: lastProj, vertexCount }, [depthIndex.buffer]); // Needs careful handling of buffer transfer
-                 return; // Skip sorting
+                lastProj[2] * viewProj[2] +
+                lastProj[6] * viewProj[6] +
+                lastProj[10] * viewProj[10];
+            if (Math.abs(dot - 1) < 0.01) {
+                return;
             }
+        } else {
+            generateTexture();
+            lastVertexCount = vertexCount;
         }
-        */
-        // If we reach here, we decided a sort is needed.
-    
+
         console.time("sort");
         let maxDepth = -Infinity;
         let minDepth = Infinity;
-        let sizeList = new Int32Array(vertexCount); // Renamed from depthList for clarity based on usage
+        let sizeList = new Int32Array(vertexCount);
         for (let i = 0; i < vertexCount; i++) {
-            // Correct calculation using full view-projection matrix Z row components
-            let depth = viewProj[2] * f_buffer[8 * i + 0] +
-                        viewProj[6] * f_buffer[8 * i + 1] +
-                        viewProj[10] * f_buffer[8 * i + 2] +
-                        viewProj[14]; // Don't forget the W component's contribution
-    
-            // Original code multiplied by 4096 and cast to int, let's keep that for consistency
-            // Although using floats directly might be better if precision allows
-            sizeList[i] = (depth * 4096) | 0;
-    
-            if (sizeList[i] > maxDepth) maxDepth = sizeList[i];
-            if (sizeList[i] < minDepth) minDepth = sizeList[i];
+            let depth =
+                ((viewProj[2] * f_buffer[8 * i + 0] +
+                    viewProj[6] * f_buffer[8 * i + 1] +
+                    viewProj[10] * f_buffer[8 * i + 2]) *
+                    4096) |
+                0;
+            sizeList[i] = depth;
+            if (depth > maxDepth) maxDepth = depth;
+            if (depth < minDepth) minDepth = depth;
         }
-    
-        // Ensure minDepth and maxDepth are valid numbers
-         if (!isFinite(minDepth) || !isFinite(maxDepth)) {
-             console.warn("Sort failed: Invalid min/max depth.", minDepth, maxDepth);
-             console.timeEnd("sort");
-             return; // Cannot sort
-         }
-    
-    
+
         // This is a 16 bit single-pass counting sort
-        let counts0 = new Uint32Array(65536); // 2^16 buckets
-        let depthInv = (maxDepth === minDepth) ? 0 : 65535.0 / (maxDepth - minDepth); // Use 65535 for 16-bit range
-    
-        // Check for division by zero or invalid range
-        if (!isFinite(depthInv)) {
-            console.warn("Sort failed: Invalid depth range for scaling.", minDepth, maxDepth);
-            // Handle this case: maybe assign all to one bucket or skip sort
-            depthInv = 0; // Avoid NaN, map all to bucket 0
-        }
-    
-    
+        let depthInv = (256 * 256) / (maxDepth - minDepth);
+        let counts0 = new Uint32Array(256 * 256);
         for (let i = 0; i < vertexCount; i++) {
-            // Map depth to 16-bit integer range [0, 65535]
-            let mappedDepth = Math.max(0, Math.min(65535, Math.floor((sizeList[i] - minDepth) * depthInv)));
-            counts0[mappedDepth]++;
-            sizeList[i] = mappedDepth; // Store the mapped depth back into sizeList temporarily
+            sizeList[i] = ((sizeList[i] - minDepth) * depthInv) | 0;
+            counts0[sizeList[i]]++;
         }
-    
-        let starts0 = new Uint32Array(65536);
-        // Calculate starting positions (prefix sum)
-        // starts0[0] is already 0
-        for (let i = 1; i < 65536; i++) {
+        let starts0 = new Uint32Array(256 * 256);
+        for (let i = 1; i < 256 * 256; i++)
             starts0[i] = starts0[i - 1] + counts0[i - 1];
-        }
-    
-        // Ensure depthIndex buffer is correctly sized
-        if (!depthIndex || depthIndex.length !== vertexCount) {
-             depthIndex = new Uint32Array(vertexCount);
-        }
-    
-        // Fill the sorted index buffer
-        for (let i = 0; i < vertexCount; i++) {
-            let mappedDepth = sizeList[i]; // Get the bucket index stored earlier
-            depthIndex[starts0[mappedDepth]] = i; // Place original index 'i'
-            starts0[mappedDepth]++; // Increment the starting position for the next item in this bucket
-        }
+        depthIndex = new Uint32Array(vertexCount);
+        for (let i = 0; i < vertexCount; i++)
+            depthIndex[starts0[sizeList[i]]++] = i;
+
         console.timeEnd("sort");
-    
-        lastProj = currentViewProj; // Store the view matrix used for *this* sort
-        lastSortVertexCount = vertexCount; // Store the vertex count used for *this* sort
-    
-        // Post message *after* updating state variables
-        self.postMessage({ depthIndex: depthIndex.buffer, viewProj: currentViewProj, vertexCount }, [
-            depthIndex.buffer, // Transfer ownership
+
+        lastProj = viewProj;
+        self.postMessage({ depthIndex, viewProj, vertexCount }, [
+            depthIndex.buffer,
         ]);
     }
-
-    let lastSortVertexCount = 0;
 
     const throttledSort = () => {
         if (!sortRunning) {
@@ -466,72 +351,16 @@ function createWorker(self) {
     };
 
     let sortRunning;
-    // self.onmessage = (e) => {
-    //     if (e.data.buffer) {
-    //         buffer = e.data.buffer;
-    //         vertexCount = e.data.vertexCount;
-    //         lastVertexCount = vertexCount; // Update this for sort logic check
-    //         generateTexture();
-    //     } else if (e.data.vertexCount) {
-    //         vertexCount = e.data.vertexCount;
-    //     } else if (e.data.view) {
-    //         viewProj = e.data.view;
-    //         throttledSort();
-    //     }
-    // };
     self.onmessage = (e) => {
         if (e.data.buffer) {
-            // --- Buffer Update ---
-            buffer = e.data.buffer; // Replace buffer with combined data for the new frame
-            vertexCount = e.data.vertexCount; // Update vertex count (M+N)
-            lastVertexCount = vertexCount; // Update this for sort logic check
-    
-            // --- Process This Frame Immediately ---
-            // 1. Generate texture for the NEW buffer
-            generateTexture(); // Sends texture data back to main thread
-    
-            // 2. Check if we have a valid viewProj matrix to perform sorting
-            if (viewProj) {
-                // 3. Run sort IMMEDIATELY using the SAME buffer we just used for the texture
-                runSort(viewProj); // Sends depth index back to main thread
-            } else {
-                 // If viewProj isn't set yet, we can't sort. Texture is generated anyway.
-                 // Main thread will send viewProj later, triggering a sort then.
-                 console.log("Worker received buffer, generated texture, waiting for view matrix to sort.");
-            }
-    
+            buffer = e.data.buffer;
+            vertexCount = e.data.vertexCount;
+        } else if (e.data.vertexCount) {
+            vertexCount = e.data.vertexCount;
         } else if (e.data.view) {
-            // --- View Update ---
-            const newViewProj = e.data.view;
-            let needsSort = false;
-    
-            // Check if sorting is needed:
-            // - If buffer/vertexCount is not ready, we can't sort.
-            // - If view hasn't changed significantly AND vertex count is same, skip sort.
-            if (buffer && vertexCount > 0) {
-                if (lastProj.length === 0 || vertexCount !== lastSortVertexCount) { // Use lastSortVertexCount here
-                     needsSort = true; // Need initial sort or sort due to vertex count change
-                } else {
-                    // Check for significant view change using dot product
-                    let dot =
-                        lastProj[2] * newViewProj[2] +
-                        lastProj[6] * newViewProj[6] +
-                        lastProj[10] * newViewProj[10];
-                    if (Math.abs(dot - 1.0) > 0.01) { // Threshold for view change
-                        needsSort = true;
-                    }
-                }
-            }
-    
-            viewProj = newViewProj; // Store the new view matrix regardless
-    
-            if (needsSort) {
-                // Run sort because the view changed significantly or it's the initial sort
-                runSort(viewProj); // Sends depth index back
-            }
+            viewProj = e.data.view;
+            throttledSort();
         }
-        // Remove the 'else if (e.data.vertexCount)' block if it only updates vertexCount,
-        // as that's now handled with the buffer message.
     };
 }
 
@@ -617,164 +446,330 @@ fragColor = vec4(B * vColor.rgb, B);
 `.trim();
 
 let viewMatrix = defaultViewMatrix;
-
-async function fetchUint8(url) {
-    const r = await fetch(url, {mode:"cors"});
-    if (!r.ok) throw Error(`${r.status} ${url}`);
-    return new Uint8Array(await r.arrayBuffer());
-}
-
 async function main() {
-    /* ---------------- DOM helpers ---------------- */
-    const canvas      = document.getElementById("canvas");
-    const messageEl   = document.getElementById("message");
-    const spinnerEl   = document.getElementById("spinner");
+    const rowLength = 3 * 4 + 3 * 4 + 4 + 4;
+    let splatData
 
-    /* ---------------- download splats ---------------- */
-    if (spinnerEl) spinnerEl.style.display = "block";
-    if (messageEl) messageEl.innerText = "Downloading splats…";
+    let active_camera = JSON.parse(JSON.stringify(cameras[0]));  // deep copy
 
-    const staticBytes = await fetchUint8(DATA_DIR + STATIC_FN);            // Uint8Array
-    const dynamicRaw  = await Promise.all(
-        Array.from({ length: T }, (_, i) => fetchUint8(DATA_DIR + FRAME_FMT(i)))
+    const downsample =
+        1.0;
+
+    const worker = new Worker(
+        URL.createObjectURL(
+            new Blob(["(", createWorker.toString(), ")(self)"], {
+                type: "application/javascript",
+            }),
+        ),
     );
 
-    if (spinnerEl) spinnerEl.style.display = "none";
-    if (messageEl) messageEl.innerText = "";
+    const canvas = document.getElementById("canvas");
+    // const fps = document.getElementById("fps");
+    // const focal_x = document.getElementById("focal-x");
+    // const focal_y = document.getElementById("focal-y");
+    // const inner_width = document.getElementById("inner-width");
+    // const inner_height = document.getElementById("inner-height");
 
-    /* ---------------- WebGL boilerplate ---------------- */
-    const gl = canvas.getContext("webgl2", { antialias: false });
+    let currentCameraIndex = 0;
+    let projectionMatrix;
 
-    const vShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vShader, vertexShaderSource);
-    gl.compileShader(vShader);
+    const gl = canvas.getContext("webgl2", {
+        antialias: false,
+    });
 
-    const fShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fShader, fragmentShaderSource);
-    gl.compileShader(fShader);
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexShaderSource);
+    gl.compileShader(vertexShader);
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS))
+        console.error(gl.getShaderInfoLog(vertexShader));
+
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentShaderSource);
+    gl.compileShader(fragmentShader);
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS))
+        console.error(gl.getShaderInfoLog(fragmentShader));
 
     const program = gl.createProgram();
-    gl.attachShader(program, vShader);
-    gl.attachShader(program, fShader);
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
     gl.useProgram(program);
 
-    gl.disable(gl.DEPTH_TEST);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+        console.error(gl.getProgramInfoLog(program));
+
+    gl.disable(gl.DEPTH_TEST); // Disable depth testing
+
+    // Enable blending
     gl.enable(gl.BLEND);
-    gl.blendFuncSeparate(gl.ONE_MINUS_DST_ALPHA, gl.ONE, gl.ONE_MINUS_DST_ALPHA, gl.ONE);
+    gl.blendFuncSeparate(
+        gl.ONE_MINUS_DST_ALPHA,
+        gl.ONE,
+        gl.ONE_MINUS_DST_ALPHA,
+        gl.ONE,
+    );
+    gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
 
-    /* uniforms */
+    // Theses are the data passed to the shader program
     const u_projection = gl.getUniformLocation(program, "projection");
-    const u_view       = gl.getUniformLocation(program, "view");
-    const u_focal      = gl.getUniformLocation(program, "focal");
-    const u_viewport   = gl.getUniformLocation(program, "viewport");
+    const u_viewport = gl.getUniformLocation(program, "viewport");
+    const u_focal = gl.getUniformLocation(program, "focal");
+    const u_view = gl.getUniformLocation(program, "view");
 
-    /* full‑screen quad */
-    const quad = new Float32Array([-2, -2, 2, -2, 2, 2, -2, 2]);
-    const quadBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+    // positions
+    const triangleVertices = new Float32Array([-2, -2, 2, -2, 2, 2, -2, 2]);
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
     const a_position = gl.getAttribLocation(program, "position");
     gl.enableVertexAttribArray(a_position);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.vertexAttribPointer(a_position, 2, gl.FLOAT, false, 0, 0);
 
-    /* index buffer (instanced) */
-    const indexBuf = gl.createBuffer();
-    const a_index  = gl.getAttribLocation(program, "index");
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    var u_textureLocation = gl.getUniformLocation(program, "u_texture");
+    gl.uniform1i(u_textureLocation, 0);
+
+    const indexBuffer = gl.createBuffer();
+    const a_index = gl.getAttribLocation(program, "index");
     gl.enableVertexAttribArray(a_index);
-    gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
+    gl.bindBuffer(gl.ARRAY_BUFFER, indexBuffer);
     gl.vertexAttribIPointer(a_index, 1, gl.INT, false, 0, 0);
     gl.vertexAttribDivisor(a_index, 1);
 
-    /* texture placeholder */
-    const texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.uniform1i(gl.getUniformLocation(program, "u_texture"), 0);
-
-    /* viewport */
     const resize = () => {
-        canvas.width  = render_width;
-        canvas.height = render_height;
-        gl.viewport(0, 0, canvas.width, canvas.height);
+        use_intrinsics(active_camera);
+
+        // gl.uniform2fv(u_viewport, new Float32Array([innerWidth, innerHeight]));
+        // gl.canvas.width = Math.round(innerWidth / downsample);
+        // gl.canvas.height = Math.round(innerHeight / downsample);
         gl.uniform2fv(u_viewport, new Float32Array([render_width, render_height]));
+        gl.canvas.width = Math.round(render_width / downsample);
+        gl.canvas.height = Math.round(render_height / downsample);
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+        update_displayed_info(active_camera);
     };
+
+    const use_camera = (camera) => {
+        use_intrinsics(camera);
+        use_extrinsics(camera);
+    };
+
+    const use_intrinsics = (camera) => {
+        gl.uniform2fv(u_focal, new Float32Array([camera.fx, camera.fy]));
+        projectionMatrix = getProjectionMatrix(
+            camera.fx,
+            camera.fy,
+            render_width,
+            render_height,
+        );
+        gl.uniformMatrix4fv(u_projection, false, projectionMatrix);
+    };
+
+    const use_extrinsics = (camera) => {
+        viewMatrix = getViewMatrix(camera);
+        gl.uniformMatrix4fv(u_view, false, viewMatrix);
+        yaw = 0;
+        pitch = 0;
+        movement = [0, 0, 0];
+    };
+
+    const update_displayed_info = (camera) => {
+        // focal_x.innerText = "focal_x  " + camera.fx;
+        // focal_y.innerText = "focal_y  " + camera.fy;
+        // inner_width.innerText = "inner_width  " + innerWidth;
+        // inner_height.innerText = "inner_height  " + innerHeight;
+    };
+
     window.addEventListener("resize", resize);
     resize();
 
-    /* ---------------- camera ---------------- */
-    let active_camera = JSON.parse(JSON.stringify(cameras[0]));
-    const use_intrinsics = (cam) => {
-        gl.uniform2fv(u_focal, new Float32Array([cam.fx, cam.fy]));
-        const proj = getProjectionMatrix(cam.fx, cam.fy, render_width, render_height);
-        gl.uniformMatrix4fv(u_projection, false, proj);
-        projectionMatrix = proj;  // store for worker viewProj later
-    };
-    const use_extrinsics = (cam) => {
-        viewMatrix = getViewMatrix(cam);
-        gl.uniformMatrix4fv(u_view, false, viewMatrix);
-    };
-    let projectionMatrix;
-    viewMatrix = defaultViewMatrix;
-
-    movement = [0,0,0.2];
-    bbox = [
-        -0.1, 0.1,
-        -0.2, 0.2,
-        -0.1, 0.1,
-        -0.1, 0.1
-    ];
-    active_camera.fx = active_camera.fy = 960;
-    radius = 9999;
-    yaw = 0;
-
-    use_intrinsics(active_camera);
-    use_extrinsics(active_camera);
-
-    /* ---------------- worker ---------------- */
-    const worker = new Worker(URL.createObjectURL(new Blob([`(${createWorker.toString()})(self)`], { type: "application/javascript" })));
-    let vertexCount = 0;
     worker.onmessage = (e) => {
-        if (e.data.depthIndex) {
-            gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
-            gl.bufferData(gl.ARRAY_BUFFER, e.data.depthIndex, gl.DYNAMIC_DRAW);
-            vertexCount = e.data.vertexCount;
+        if (e.data.buffer) {
+            splatData = new Uint8Array(e.data.buffer);
+            const blob = new Blob([splatData.buffer], {
+                type: "application/octet-stream",
+            });
+            const link = document.createElement("a");
+            link.download = "model.splat";
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
         } else if (e.data.texdata) {
+            const { texdata, texwidth, texheight } = e.data;
+            // console.log(texdata)
             gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_S,
+                gl.CLAMP_TO_EDGE,
+            );
+            gl.texParameteri(
+                gl.TEXTURE_2D,
+                gl.TEXTURE_WRAP_T,
+                gl.CLAMP_TO_EDGE,
+            );
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, e.data.texwidth, e.data.texheight, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, e.data.texdata);
-            gl.finish();
+
+            gl.texImage2D(
+                gl.TEXTURE_2D,
+                0,
+                gl.RGBA32UI,
+                texwidth,
+                texheight,
+                0,
+                gl.RGBA_INTEGER,
+                gl.UNSIGNED_INT,
+                texdata,
+            );
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+        } else if (e.data.depthIndex) {
+            const { depthIndex, viewProj } = e.data;
+            gl.bindBuffer(gl.ARRAY_BUFFER, indexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, depthIndex, gl.DYNAMIC_DRAW);
+            vertexCount = e.data.vertexCount;
         }
     };
 
-    const keys = new Set();
-    window.addEventListener("keydown", (e) => { if (document.activeElement === document.body) keys.add(e.code); });
-    window.addEventListener("keyup",   (e) => keys.delete(e.code));
-
-    let frameIdx = 0;
-    const frameMs = 1000 / PLAY_FPS;
-    let lastSwap = performance.now();
-
-    const loop = (now) => {
-        requestAnimationFrame(loop);
-        if (now - lastSwap > frameMs) {
-            lastSwap = now;
-            frameIdx = (frameIdx + 1) % T;
-            const dyn = dynamicRaw[frameIdx];
-            const comb = new Uint8Array(staticBytes.length + dyn.length);
-            // comb.set(staticBytes);
-            comb.set(dyn, staticBytes.length);
-            worker.postMessage({ buffer: comb.buffer, vertexCount: comb.length / ROW_LEN });
+    let activeKeys = [];
+    window.addEventListener("keydown", (e) => {
+        if (document.activeElement != document.body) return;
+        if (e.code === "KeyF") {
+            active_camera.fx += 10; // Adjust 10 to your desired increment value
+            active_camera.fy += 10; // Adjust 10 to your desired increment value
+            use_intrinsics(active_camera);
+            update_displayed_info(active_camera);
         }
+
+        if (e.code === "KeyG") {
+            active_camera.fx -= 10; // Adjust 10 to your desired decrement value
+            active_camera.fy -= 10; // Adjust 10 to your desired decrement value
+            use_intrinsics(active_camera);
+            update_displayed_info(active_camera);
+        }
+
+        if (!activeKeys.includes(e.code)) activeKeys.push(e.code);
+        if (/\d/.test(e.key)) {
+            currentCameraIndex = parseInt(e.key)
+            active_camera = JSON.parse(JSON.stringify(cameras[currentCameraIndex]));
+            use_camera(active_camera);
+            update_displayed_info(active_camera);
+        }
+    });
+
+    window.addEventListener("keyup", (e) => {
+        if (document.activeElement != document.body) return;
+        activeKeys = activeKeys.filter((k) => k !== e.code);
+    });
+
+    window.addEventListener("blur", () => {
+        activeKeys = [];
+    });
+
+    let jumpDelta = 0;
+    let vertexCount = 0;
+
+    let lastTime = 0;  // This variable holds the timestamp of the last frame
+    let avgFps = 0;
+    let start = 0;
+
+    
+    // New touch controls with sensitivity threshold
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let isTwoFingerTouch = false;
+    const TOUCH_SENSITIVITY_THRESHOLD = 10; // pixels
+
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        isTwoFingerTouch = e.touches.length === 2;
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touchEndY = e.touches[0].clientY;
+        const touchEndX = e.touches[0].clientX;
+        const deltaY = touchEndY - touchStartY;
+        const deltaX = touchEndX - touchStartX;
+        
+        if (Math.abs(deltaY) > TOUCH_SENSITIVITY_THRESHOLD || Math.abs(deltaX) > TOUCH_SENSITIVITY_THRESHOLD) {
+            if (isTwoFingerTouch) {
+                // Two-finger touch for pitch and yaw
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    // Vertical movement
+                    activeKeys = activeKeys.filter(key => key !== 'KeyI' && key !== 'KeyK');
+                    if (deltaY < 0) activeKeys.push('KeyI');
+                    else activeKeys.push('KeyK');
+                } else {
+                    // Horizontal movement
+                    activeKeys = activeKeys.filter(key => key !== 'KeyJ' && key !== 'KeyL');
+                    if (deltaX < 0) activeKeys.push('KeyJ');
+                    else activeKeys.push('KeyL');
+                }
+            } else {
+                // Single-finger touch for movement
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    // Vertical movement
+                    activeKeys = activeKeys.filter(key => key !== 'KeyW' && key !== 'KeyS');
+                    if (deltaY < 0) activeKeys.push('KeyW');
+                    else activeKeys.push('KeyS');
+                } else {
+                    // Horizontal movement
+                    activeKeys = activeKeys.filter(key => key !== 'KeyA' && key !== 'KeyD');
+                    if (deltaX < 0) activeKeys.push('KeyA');
+                    else activeKeys.push('KeyD');
+                }
+            }
+            
+            touchStartY = touchEndY;
+            touchStartX = touchEndX;
+        }
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        // Remove all touch-related keys when touch ends
+        activeKeys = activeKeys.filter(key => !['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyI', 'KeyK', 'KeyJ', 'KeyL'].includes(key));
+        isTwoFingerTouch = false;
+    });
+
+    const frame = (now) => {
+        // Calculate the time elapsed since the last frame
+        const deltaTime = now - lastTime;
+        const minFrameTime = 30;  // Minimum frame time in milliseconds
+
+        // Check if the elapsed time is less than the minimum frame time
+        if (deltaTime < minFrameTime) {
+            // Calculate how much longer to wait
+            const additionalTime = minFrameTime - deltaTime;
+            // Use setTimeout to delay the next requestAnimationFrame call
+            setTimeout(() => {
+                requestAnimationFrame(frame);
+            }, additionalTime);
+        } 
+        else 
+        {
+            requestAnimationFrame(frame);
+        };
+
+        // Update the lastTime to the current time
+        lastTime = now;
 
         let inv = invert4(defaultViewMatrix);
 
-        if (keys.has("KeyJ")) yaw -= 0.01;
-        if (keys.has("KeyL")) yaw += 0.01;
-        if (keys.has("KeyI")) pitch += 0.005;
-        if (keys.has("KeyK")) pitch -= 0.005;
+        if (activeKeys.includes("KeyJ")) yaw -= 0.01;
+        if (activeKeys.includes("KeyL")) yaw += 0.01;
+        if (activeKeys.includes("KeyI")) pitch += 0.005;
+        if (activeKeys.includes("KeyK")) pitch -= 0.005;
 
-        if (keys.has("KeyQ")) {
+        if (activeKeys.includes("KeyQ")) {
             document.getElementById("message").innerText = 'movement:' + movement + 'yaw:' + yaw + 'pitch:' + pitch + 'focal:' + active_camera.fx;
         }
 
@@ -785,10 +780,28 @@ async function main() {
         // Compute movement vector increment based on yaw
         movement_speed = 0.7;
         let dx = 0, dz = 0, dy = 0;
-        if (keys.has("KeyW")) dz += 0.01 * movement_speed;
-        if (keys.has("KeyS")) dz -= 0.01 * movement_speed;
-        if (keys.has("KeyA")) dx -= 0.01 * movement_speed;
-        if (keys.has("KeyD")) dx += 0.01 * movement_speed;
+        // if (isTouching) {
+        //     const touchDeltaX = touchEndX - touchStartX;
+        //     const touchDeltaY = touchEndY - touchStartY;
+            
+        //     // Adjust these thresholds as needed for sensitivity
+        //     if (touchDeltaY < -10) dz += 0.01 * movement_speed; // Up (W)
+        //     if (touchDeltaY > 10) dz -= 0.01 * movement_speed; // Down (S)
+        //     if (touchDeltaX < -10) dx -= 0.01 * movement_speed; // Left (A)
+        //     if (touchDeltaX > 10) dx += 0.01 * movement_speed; // Right (D)
+        // } else {
+        //     // Existing keyboard controls
+        //     if (activeKeys.includes("KeyW")) dz += 0.01 * movement_speed;
+        //     if (activeKeys.includes("KeyS")) dz -= 0.01 * movement_speed;
+        //     if (activeKeys.includes("KeyA")) dx -= 0.01 * movement_speed;
+        //     if (activeKeys.includes("KeyD")) dx += 0.01 * movement_speed;
+        // }
+        if (activeKeys.includes("KeyW")) dz += 0.01 * movement_speed;
+        if (activeKeys.includes("KeyS")) dz -= 0.01 * movement_speed;
+        if (activeKeys.includes("KeyA")) dx -= 0.01 * movement_speed;
+        if (activeKeys.includes("KeyD")) dx += 0.01 * movement_speed;
+        // if (activeKeys.includes("KeyN")) dy -= 0.01;
+        // if (activeKeys.includes("KeyM")) dy += 0.01;
 
         // Convert dx and dz into world coordinates based on yaw
         let forward = [Math.sin(yaw) * dz, 0, Math.cos(yaw) * dz];
@@ -816,27 +829,205 @@ async function main() {
 
         // Compute the view matrix
         viewMatrix = invert4(inv);
+
         let inv2 = invert4(viewMatrix);
         let actualViewMatrix = invert4(inv2);
+
         const viewProj = multiply4(projectionMatrix, actualViewMatrix);
-        gl.uniformMatrix4fv(u_view, false, viewMatrix);
         worker.postMessage({ view: viewProj });
 
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
-        // if (vertexCount > 0) {
-        //     gl.clear(gl.COLOR_BUFFER_BIT);
-        //     gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
-        // }
+        // const currentFps = 1000 / (now - lastFrame) || 0;
+        // avgFps = avgFps * 0.9 + currentFps * 0.1;
+
+        if (vertexCount > 0) {
+            // document.getElementById("spinner").style.display = "none";
+            gl.uniformMatrix4fv(u_view, false, actualViewMatrix);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArraysInstanced(gl.TRIANGLE_FAN, 0, 4, vertexCount);
+        } else {
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            // document.getElementById("spinner").style.display = "";
+            start = Date.now() + 2000;
+        }
+
     };
-    requestAnimationFrame(loop);
+
+    frame();
+
+    const selectFile = (file) => {
+        const fr = new FileReader();
+        fr.onload = () => {
+            splatData = new Uint8Array(fr.result);
+            console.log("Loaded", Math.floor(splatData.length / rowLength));
+            worker.postMessage({
+                buffer: splatData,
+                vertexCount: Math.floor(splatData.length / rowLength),
+            });
+        };
+        fr.readAsArrayBuffer(file);
+    };
+
+    const preventDefault = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+    document.addEventListener("dragenter", preventDefault);
+    document.addEventListener("dragover", preventDefault);
+    document.addEventListener("dragleave", preventDefault);
+    document.addEventListener("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        selectFile(e.dataTransfer.files[0]);
+    });
+
+
+    const buttons = document.querySelectorAll('.button, .button-img');
+    let currentActiveButton = null;
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (currentActiveButton !== this) {
+                // Remove active class from all buttons
+                buttons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to the clicked button
+                this.classList.add('active');
+
+                currentActiveButton = this;
+
+                // Call the function to handle the active button change
+                if (this.dataset.url) {
+                    handleActiveButtonChange(this.dataset.url);
+                } else {
+                    handleEmptyButtonActivation();
+                }
+            }
+        });
+    });
+
+
+    function handleEmptyButtonActivation() {
+        splatData = new Uint8Array(0);
+        worker.postMessage({
+            buffer: splatData.buffer,
+            vertexCount: 0,
+        });
+        active_camera = JSON.parse(JSON.stringify(cameras[0]));
+        use_camera(active_camera);
+        update_displayed_info(active_camera);
+    }
+
+    // Function to handle the active button change
+    async function handleActiveButtonChange(activeButtonUrl) {
+        splatData = new Uint8Array(0);
+        worker.postMessage({
+            buffer: splatData.buffer,
+            vertexCount: 0,
+        });
+
+        console.log(`Active button changed to URL: ${activeButtonUrl}`);
+        active_camera = JSON.parse(JSON.stringify(cameras[0]));
+        use_camera(active_camera);
+        update_displayed_info(active_camera);
+        if (activeButtonUrl.includes('minecraft')) {
+            movement = [0.3701745151902974,0,-2.9261931203450615];
+            bbox = [-0.5, 0.64, -3.2, 0.8, -0.2, 0.16, -0.2, 0.3];
+            active_camera.fx = active_camera.fy = 1220;
+            radius = 9999;
+            yaw = -0.13;
+        }
+        else if (activeButtonUrl.includes('city_hall_monet')) {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -0.1, 0.35, -9999, 9999];
+            active_camera.fx = active_camera.fy = 960;
+            radius = 0.13;
+        }
+        else if (activeButtonUrl.includes('city_hall')) {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -0.1, 0.35, -1.2, 2.7];
+            active_camera.fx = active_camera.fy = 960;
+            radius = 0.1;
+        }
+        else if (activeButtonUrl.includes('campus_2')) {
+            movement = [0.014332685967334207, 0, -0.04401724574130725];   
+            yaw = -0.11;
+            bbox = [-0.1, 0.25, -0.2, 0.12, -0.01, 0.35, -1.6, 1.47];
+            active_camera.fx = active_camera.fy = 960;
+            radius = 9999;
+        }
+        else if (activeButtonUrl.includes('cathedral_2')) {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -0.2, 0.16, -0.5, 0.86];
+            active_camera.fx = active_camera.fy = 960;
+            radius = 0.1;
+        }
+        else if (activeButtonUrl.includes('zelda')) {
+            movement = [0.0, 0, -3.2];
+            bbox = [-0.2, 0.3, -3.2, 0.2, -0.2, 0.16, -0.12, 0.3];
+            active_camera.fx = active_camera.fy = 1700;
+            radius = 9999;
+        }
+        else if (activeButtonUrl.includes('venice')) {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -0.03, 0.3, -9999, 9999];
+            active_camera.fx = active_camera.fy = 960;
+            radius = 0.1;
+        }
+        else if (activeButtonUrl.includes('disney')) {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -0.1, 0.35, -9999, 9999];
+            active_camera.fx = active_camera.fy = 900;
+            radius = 0.15;
+        }
+        else {
+            movement = [0, 0, 0];
+            bbox = [-9999, 9999, -9999, 9999, -9999, 9999, -9999, 9999];  // minx, maxx, minz, maxz, minpitch, maxpitch, minyaw, maxyaw
+            radius = 9999;
+            active_camera.fx = active_camera.fy = 960;
+        }
+        use_intrinsics(active_camera);
+
+        const url = new URL(activeButtonUrl);
+        const req = await fetch(url, {
+            mode: "cors", // no-cors, *cors, same-origin
+            credentials: "omit", // include, *same-origin, omit
+        });
+        if (req.status != 200)
+            throw new Error(req.status + " Unable to load " + req.url);
+        const reader = req.body.getReader();
+        splatData = new Uint8Array(req.headers.get("content-length"));
+        console.log('Request content length', req.headers.get("content-length"))
+
+        let bytesRead = 0;
+        let lastVertexCount = -1;
+        let stopLoading = false;
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done || stopLoading) break;
+
+            splatData.set(value, bytesRead);
+            bytesRead += value.length;
+
+            if (vertexCount > lastVertexCount) {
+                worker.postMessage({
+                    buffer: splatData.buffer,
+                    vertexCount: Math.floor(bytesRead / rowLength),
+                });
+                console.log("Loaded", Math.floor(bytesRead / rowLength));
+                lastVertexCount = vertexCount;
+                console.log('Vertex count:', vertexCount)
+            }
+        }
+        if (!stopLoading)
+            worker.postMessage({
+                buffer: splatData.buffer,
+                vertexCount: Math.floor(bytesRead / rowLength),
+            });
+        }
+
 }
 
 main().catch((err) => {
-    console.error(err);
-    const m = document.getElementById("message");
-    if (m) m.innerText = err.toString();
-    const s = document.getElementById("spinner");
-    if (s) s.style.display = "none";
+    document.getElementById("message").innerText = err.toString();
 });
-

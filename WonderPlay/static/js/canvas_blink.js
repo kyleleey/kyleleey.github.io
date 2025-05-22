@@ -728,6 +728,78 @@ async function main() {
     window.addEventListener("keydown", (e) => { if (document.activeElement === document.body) keys.add(e.code); });
     window.addEventListener("keyup",   (e) => keys.delete(e.code));
 
+    // Add touch controls
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let isTwoFingerTouch = false;
+    const TOUCH_SENSITIVITY_THRESHOLD = 10; // pixels
+
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        isTwoFingerTouch = e.touches.length === 2;
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touchEndY = e.touches[0].clientY;
+        const touchEndX = e.touches[0].clientX;
+        const deltaY = touchEndY - touchStartY;
+        const deltaX = touchEndX - touchStartX;
+        
+        if (Math.abs(deltaY) > TOUCH_SENSITIVITY_THRESHOLD || Math.abs(deltaX) > TOUCH_SENSITIVITY_THRESHOLD) {
+            if (isTwoFingerTouch) {
+                // Two-finger touch for pitch and yaw
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    // Vertical movement
+                    keys.delete("KeyI");
+                    keys.delete("KeyK");
+                    if (deltaY < 0) keys.add("KeyI");
+                    else keys.add("KeyK");
+                } else {
+                    // Horizontal movement
+                    keys.delete("KeyJ");
+                    keys.delete("KeyL");
+                    if (deltaX < 0) keys.add("KeyJ");
+                    else keys.add("KeyL");
+                }
+            } else {
+                // Single-finger touch for movement
+                if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                    // Vertical movement
+                    keys.delete("KeyW");
+                    keys.delete("KeyS");
+                    if (deltaY < 0) keys.add("KeyW");
+                    else keys.add("KeyS");
+                } else {
+                    // Horizontal movement
+                    keys.delete("KeyA");
+                    keys.delete("KeyD");
+                    if (deltaX < 0) keys.add("KeyA");
+                    else keys.add("KeyD");
+                }
+            }
+            
+            touchStartY = touchEndY;
+            touchStartX = touchEndX;
+        }
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        // Remove all touch-related keys when touch ends
+        keys.delete("KeyW");
+        keys.delete("KeyS");
+        keys.delete("KeyA");
+        keys.delete("KeyD");
+        keys.delete("KeyI");
+        keys.delete("KeyK");
+        keys.delete("KeyJ");
+        keys.delete("KeyL");
+        isTwoFingerTouch = false;
+    });
+
     let frameIdx = 0;
     const frameMs = 1000 / PLAY_FPS;
     let lastSwap = performance.now();
