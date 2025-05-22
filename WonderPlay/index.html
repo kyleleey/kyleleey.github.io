@@ -1025,19 +1025,38 @@
     </section>
     <!--End Comparisons-->
 
-    <!-- <section class="hero is-small">
+    <section class="hero is-small">
         <div class="hero-body">
-            <div style="margin-bottom: 5rem;"></div>
+            <div style="margin-bottom: 2rem;"></div>
             <div class="container">
-                <div id="message" style="color: red; text-align: center;"></div>
-                <div id="spinner" style="text-align: center; display: none;">Loading...</div>
-                <div id="canvas-container" style="width: 480px; height: 480px; margin: auto;">
-                    <canvas id="canvas" width="480" height="480" style="width: 100%; height: 100%;"></canvas>
+                <h2 class="title is-2"  style="margin-bottom: 0.5rem;">Generated 4D scene</h2>
+                <figure class="image">
+                    <figcaption>
+                        The generated video can be further used to update the underlying 4D scenes.
+                        Here on the left we show the input image with input action visualization, on the right
+                        is the updated 4D WonderWorld scene, you may move by "W/A/S/D" and look around by "I/J/K/L".
+                    </figcaption>
+                </figure>
+                <div style="margin-bottom: 2rem;"></div>
+                <div class="columns is-centered is-vcentered">
+                    <div class="column is-3">
+                        <!-- Image on the left -->
+                        <figure class="image is-centered">
+                            <img src="assets/venice_w_icon.png" alt="Demo Image" style="max-width: 100%; height: auto; margin: 0 auto; display: block;">
+                        </figure>
+                    </div>
+                    <div class="column is-6">
+                        <!-- Canvas on the right -->
+                        <div id="message" style="color: red; text-align: center;"></div>
+                        <div id="spinner" style="text-align: center; display: none;">Loading...</div>
+                        <div id="canvas-container" style="width: 720px; height: 480px; margin: 0 auto;">
+                            <canvas id="canvas" width="720" height="480" style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-  
-    </section> -->
+    </section>
   
 
     <!-- Abstract -->
