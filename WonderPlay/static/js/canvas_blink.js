@@ -19,8 +19,8 @@ let defaultViewMatrix = [-1, 0, 0, 0,
 let yaw = 0;   // Rotation around the Y-axis
 let pitch = 0; // Rotation around the X-axis
 let movement = [0, 0, 0]; // Movement vector initialized to 0,0,0
-const render_width = 512;
-const render_height = 512;
+const render_width = 720; // 512;
+const render_height = 480; //512;
 let bbox = [-9999, 9999, -9999, 9999, -9999, 9999, -9999, 9999];
 let radius = 9999;
 const rowLength = 32;
@@ -334,7 +334,7 @@ function createWorker(self) {
         lastVertexCount = vertexCount;
 
         // Always run the sort
-        console.time(`sort-frame-${currentFrameId}`);
+        // console.time(`sort-frame-${currentFrameId}`);
         let maxDepth = -Infinity;
         let minDepth = Infinity;
         let sizeList = new Int32Array(vertexCount);
@@ -364,7 +364,7 @@ function createWorker(self) {
         for (let i = 0; i < vertexCount; i++)
             depthIndex[starts0[sizeList[i]]++] = i;
 
-        console.timeEnd(`sort-frame-${currentFrameId}`);
+        // console.timeEnd(`sort-frame-${currentFrameId}`);
 
         lastProj = viewProj;
         
@@ -627,14 +627,15 @@ async function main() {
     let projectionMatrix;
     viewMatrix = defaultViewMatrix;
 
-    movement = [0,0,0.2];
+    movement = [-0.5,0,0.3];
     bbox = [
         -0.1, 0.1,
         -0.2, 0.2,
         -0.1, 0.1,
         -0.1, 0.1
     ];
-    active_camera.fx = active_camera.fy = 960;
+    // active_camera.fx = active_camera.fy = 960;
+    active_camera.fx = active_camera.fy = 800;
     radius = 9999;
     yaw = 0;
 
