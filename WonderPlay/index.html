@@ -158,6 +158,40 @@
         padding-right: 2%;
     }
 
+    /* Image and Canvas Combination Styles */
+    .image-canvas-combo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+
+    .image-canvas-combo .image-container {
+      flex: 0 0 auto;
+      text-align: center;
+    }
+
+    .image-canvas-combo .canvas-container {
+      flex: 0 0 auto;
+      position: relative;
+    }
+
+    .image-canvas-combo img,
+    .image-canvas-combo canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .image-canvas-combo {
+        flex-direction: column;
+      }
+    }
 </style>
 
 <body>
@@ -632,6 +666,7 @@
                         WonderPlay supports dynamic 3D scene generation across a wide range of scenes and materials. 
                         Here, we show side-by-side comparisons with different physics-based and video generation-based baselines. 
                         Please click on the images and baselines buttons to view the comparisons.
+                </figcaption>
                 </figure>
 
                 <div style="margin-bottom: 1rem;"></div>
@@ -1029,34 +1064,34 @@
         <div class="hero-body">
             <div style="margin-bottom: 2rem;"></div>
             <div class="container">
-                <h2 class="title is-2"  style="margin-bottom: 0.5rem;">Generated 4D scene</h2>
+                <h2 class="title is-2" style="margin-bottom: 0.5rem;">Generated 4D scene</h2>
                 <figure class="image">
                     <figcaption>
                         The generated video can be further used to update the underlying 4D scenes.
-                        Here on the left we show the input image with input action visualization, on the right
-                        is the updated 4D WonderWorld scene, you may move by "W/A/S/D" and look around by "I/J/K/L".
+                        Here on the left we show the input image overlaid with action visualization, on the right
+                        is the updated 4D WonderWorld scene.
                     </figcaption>
                 </figure>
+
+                <p style="font-size: 1.2rem;">You may move by "W/A/S/D" and look around by "I/J/K/L".</p>
+                
                 <div style="margin-bottom: 2rem;"></div>
-                <div class="columns is-centered is-vcentered">
-                    <div class="column is-3">
-                        <!-- Image on the left -->
-                        <figure class="image is-centered">
-                            <img src="assets/venice_w_icon.png" alt="Demo Image" style="max-width: 100%; height: auto; margin: 0 auto; display: block;">
-                        </figure>
+
+                <div class="image-canvas-combo">
+                    <div class="image-container" style="width: 40%;">
+                        <img src="assets/venice_w_icon.png" alt="Demo Image">
                     </div>
-                    <div class="column is-6">
-                        <!-- Canvas on the right -->
-                        <div id="message" style="color: red; text-align: center;"></div>
-                        <div id="spinner" style="text-align: center; display: none;">Loading...</div>
-                        <div id="canvas-container" style="width: 720px; height: 480px; margin: 0 auto;">
-                            <canvas id="canvas" width="720" height="480" style="width: 100%; height: 100%;"></canvas>
-                        </div>
+                    <div class="canvas-container" style="width: 55%;">
+                        <!-- <div id="message" style="color: red; text-align: center;"></div> -->
+                        <!-- <div id="spinner" style="text-align: center; display: none;">Loading...</div> -->
+                        <canvas id="canvas" width="720" height="480"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <div style="margin-bottom: 2rem;"></div>
   
 
     <!-- Abstract -->
