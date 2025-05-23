@@ -1,7 +1,6 @@
 .teaser-container {
     position: relative;
-    width: 80%;  /* Scale to 80% of the original container width */
-    max-width: 1200px;
+    max-width: 1024px;
     margin: 0 auto;
 }
 

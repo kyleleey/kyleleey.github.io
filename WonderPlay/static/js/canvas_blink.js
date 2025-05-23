@@ -695,7 +695,16 @@ async function main() {
                 
                 if (messageEl && e.data.frameId === 0) {
                     messageEl.innerText = "First frame rendered";
-                    setTimeout(() => { if (messageEl) messageEl.innerText = ""; }, 1000);
+                    setTimeout(() => { 
+                        if (messageEl) messageEl.innerText = "";
+                        if (spinnerEl) spinnerEl.style.display = "none";
+                        
+                        // Update UI to show canvas is ready
+                        const instructions = document.getElementById("canvas-instructions");
+                        const buttonText = document.getElementById("canvas-button-text");
+                        if (instructions) instructions.innerText = "Interactive Viewer (Use WASD to move, IJKL to look around)";
+                        if (buttonText) buttonText.innerText = "Interactive Viewer Loaded";
+                    }, 1000);
                 }
             } else if (e.data.depthIndex) {
                 // Process individual depth index update
@@ -982,10 +991,62 @@ async function main() {
     requestAnimationFrame(loop);
 }
 
-main().catch((err) => {
-    console.error(err);
-    const m = document.getElementById("message");
-    if (m) m.innerText = err.toString();
-    const s = document.getElementById("spinner");
-    if (s) s.style.display = "none";
+// Lazy loading: only start canvas when button is clicked
+let canvasLoaded = false;
+
+function initCanvas() {
+    if (canvasLoaded) return;
+    canvasLoaded = true;
+    
+    // Update UI elements but keep the image visible
+    const canvas = document.getElementById("canvas");
+    const message = document.getElementById("message");
+    const spinner = document.getElementById("spinner");
+    const instructions = document.getElementById("canvas-instructions");
+    const buttonText = document.getElementById("canvas-button-text");
+    const button = document.getElementById("canvas-load-button");
+    
+    // Remove click handler from button to prevent multiple loads
+    if (button) {
+        button.style.pointerEvents = 'none';
+        button.style.opacity = '0.7';
+    }
+    
+    // Update text content
+    if (buttonText) buttonText.innerText = "Loading Interactive Viewer...";
+    if (instructions) instructions.innerText = "Interactive Viewer (Loading...)";
+    
+    // Show loading indicators
+    if (message) message.style.display = "block";
+    if (spinner) spinner.style.display = "block";
+    
+    // Clear the grey background and prepare for content
+    if (canvas) {
+        canvas.style.backgroundColor = 'transparent';
+    }
+    
+    // Start loading the canvas
+    main().catch((err) => {
+        console.error(err);
+        const m = document.getElementById("message");
+        if (m) m.innerText = err.toString();
+        const s = document.getElementById("spinner");
+        if (s) s.style.display = "none";
+        
+        // Reset button state on error
+        if (button) {
+            button.style.pointerEvents = 'auto';
+            button.style.opacity = '1';
+        }
+        if (buttonText) buttonText.innerText = "Click to Load Interactive Viewer";
+        canvasLoaded = false;
+    });
+}
+
+// Set up button click handler when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById("canvas-load-button");
+    if (button) {
+        button.addEventListener('click', initCanvas);
+    }
 });

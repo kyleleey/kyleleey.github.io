@@ -10,6 +10,11 @@
     <title>WonderPlay</title>
     <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 
+    <!-- Google Fonts - Mulish -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="static/css/bulma.min.css">
     <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
     <link rel="stylesheet" href="static/css/bulma-slider.min.css">
@@ -266,13 +271,31 @@
     #gallery-buttons-nvs {
         margin-top: 0;
     }
+    
+    .canvas-load-button {
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        cursor: pointer;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .canvas-load-button:hover {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    
+    .canvas-load-button img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 </style>
 
 <body>
 
     <section class="hero">
         <div class="hero-body">
-            <div class="container is-max-desktop">
+            <div class="container">
                 <div class="columns is-centered">
                     <div class="column has-text-centered">
                         <h1 class="title is-1 publication-title">WonderPlay: Dynamic 3D Scene Generation <br> from a Single Image and Actions</h1>
@@ -348,7 +371,7 @@
 
     <section class="hero teaser">
         <div class="hero-body">
-            <div class="container is-max-desktop">
+            <div class="container">
                 <h2 class="title is-2">What Actions Can We Apply in This Tea Party?</h2>
 
                 <div class="teaser-instructions">
@@ -357,7 +380,7 @@
                     </p>
                 </div>
 
-                <div class="teaser-container" style="width: 100%;">
+                <div class="teaser-container">
                     <!-- Main static image with hotspots -->
                     <div class="main-view active">
                         <img src="assets/teaser/full_scene.jpg" alt="Full Scene" class="main-image">
@@ -409,11 +432,12 @@
     <section class="hero is-small">
         <div class="hero-body">
             <div class="container">
-                <h2 class="title is-2">Qualitative Results</h2>
+                <h2 class="title is-2">Action-Conditioned Dynamic 3D Scenes</h2>
                 
                 <figure class="image">
                     <figcaption>
                         WonderPlay generates dynamic 3D scenes from a single image and input actions. 
+                        It predicts the physical consequences of the input actions.
                         Here, we present video results rendered with a moving camera, overlaid with action visualizations. 
                     </figcaption>
                 </figure>
@@ -423,25 +447,25 @@
                 <!-- Scene buttons -->
                 <div class="video-gallery-buttons" id="gallery-buttons-results">
                     <button class="scene-button is-primary" data-video-index="0">
-                        <img src="assets/results/venice.png" alt="Scene 1">
+                        <img src="assets/results/venice.jpg" alt="Scene 1">
                     </button>
                     <button class="scene-button" data-video-index="1">
-                        <img src="assets/results/cloth_hang_image.png" alt="Scene 2">
+                        <img src="assets/results/cloth_hang_image.jpg" alt="Scene 2">
                     </button>
                     <button class="scene-button" data-video-index="2">
-                        <img src="assets/results/smoke_shoe_image.png" alt="Scene 3">
+                        <img src="assets/results/smoke_shoe_image.jpg" alt="Scene 3">
                     </button>
                     <button class="scene-button" data-video-index="3">
-                        <img src="assets/results/smoke_can_image.png" alt="Scene 4">
+                        <img src="assets/results/smoke_can_image.jpg" alt="Scene 4">
                     </button>
                     <button class="scene-button" data-video-index="4">
-                        <img src="assets/results/flower_wind_image.png" alt="Scene 5">
+                        <img src="assets/results/flower_wind_image.jpg" alt="Scene 5">
                     </button>
                     <button class="scene-button" data-video-index="5">
-                        <img src="assets/results/add_wine.png" alt="Scene 6">
+                        <img src="assets/results/add_wine.jpg" alt="Scene 6">
                     </button>
                     <button class="scene-button" data-video-index="6">
-                        <img src="assets/results/snow_man.png" alt="Scene 7">
+                        <img src="assets/results/snow_man.jpg" alt="Scene 7">
                     </button>
                     <button class="scene-button" data-video-index="7">
                         <img src="assets/results/tree_wind_image.jpg" alt="Scene 8">
@@ -466,7 +490,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/cloth_hang.mp4" type="video/mp4">
+                                    <source data-src="assets/results/cloth_hang.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -477,7 +501,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/smoke_shoe.mp4" type="video/mp4">
+                                    <source data-src="assets/results/smoke_shoe.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -488,7 +512,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/smoke_can.mp4" type="video/mp4">
+                                    <source data-src="assets/results/smoke_can.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -499,7 +523,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/flower_wind.mp4" type="video/mp4">
+                                    <source data-src="assets/results/flower_wind.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -510,7 +534,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/add_wine_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/results/add_wine_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -521,7 +545,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/snow_man_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/results/snow_man_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -532,7 +556,7 @@
                             
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/results/tree_wind.mp4" type="video/mp4">
+                                    <source data-src="assets/results/tree_wind.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -559,16 +583,16 @@
                 <!-- Scene buttons -->
                 <div class="video-gallery-buttons" id="gallery-buttons-diff-actions-scenes">
                     <button class="scene-button is-primary" data-video-index="0">
-                        <img src="assets/diff_interaction/jam_cake.png" alt="Scene 1">
+                        <img src="assets/diff_interaction/jam_cake.jpg" alt="Scene 1">
                     </button>
                     <button class="scene-button" data-video-index="1">
-                        <img src="assets/diff_interaction/smoke_burner.png" alt="Scene 2">
+                        <img src="assets/diff_interaction/smoke_burner.jpg" alt="Scene 2">
                     </button>
                     <button class="scene-button" data-video-index="2">
-                        <img src="assets/diff_interaction/clothes_two.png" alt="Scene 3">
+                        <img src="assets/diff_interaction/clothes_two.jpg" alt="Scene 3">
                     </button>
                     <button class="scene-button" data-video-index="3">
-                        <img src="assets/diff_interaction/sand_tower.png" alt="Scene 4">
+                        <img src="assets/diff_interaction/sand_tower.jpg" alt="Scene 4">
                     </button>
                 </div>
 
@@ -601,7 +625,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/jam_cake_3_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/jam_cake_3_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -610,7 +634,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/jam_cake_1_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/jam_cake_1_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -619,44 +643,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/jam_cake_4_icon.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center;">
-                            <div class="video-container">
-                                <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/smoke_burner_1_icon.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center;">
-                            <div class="video-container">
-                                <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/smoke_burner_2_icon.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center;">
-                            <div class="video-container">
-                                <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/smoke_burner_3_icon.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="video-gallery-item">
-                        <div class="image-video-pair" style="justify-content: center;">
-                            <div class="video-container">
-                                <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/smoke_burner_4_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/jam_cake_4_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -666,7 +653,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/clothes_two_1_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/smoke_burner_1_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -675,7 +662,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/clothes_two_2_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/smoke_burner_2_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -684,7 +671,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/clothes_two_3_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/smoke_burner_3_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -693,7 +680,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/clothes_two_4_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/smoke_burner_4_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -703,7 +690,44 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/sand_tower_1_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/clothes_two_1_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source data-src="assets/diff_interaction/clothes_two_2_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source data-src="assets/diff_interaction/clothes_two_3_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source data-src="assets/diff_interaction/clothes_two_4_icon.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="video-gallery-item">
+                        <div class="image-video-pair" style="justify-content: center;">
+                            <div class="video-container">
+                                <video preload="none" controls muted loop>
+                                    <source data-src="assets/diff_interaction/sand_tower_1_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -712,7 +736,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/sand_tower_3.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/sand_tower_3.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -721,7 +745,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/sand_tower_4_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/sand_tower_4_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -730,7 +754,7 @@
                         <div class="image-video-pair" style="justify-content: center;">
                             <div class="video-container">
                                 <video preload="none" controls muted loop>
-                                    <source src="assets/diff_interaction/sand_tower_2_icon.mp4" type="video/mp4">
+                                    <source data-src="assets/diff_interaction/sand_tower_2_icon.mp4" type="video/mp4">
                                 </video>
                             </div>
                         </div>
@@ -761,19 +785,19 @@
                 <!-- Second row of buttons -->
                 <div class="video-gallery-buttons">
                     <button class="scene-button is-primary" data-video-index="0">
-                        <img src="assets/comparisons/boat_river.png" alt="Scene 1">
+                        <img src="assets/comparisons/boat_river.jpg" alt="Scene 1">
                     </button>
                     <button class="scene-button" data-video-index="4">
                         <img src="assets/comparisons/persimmon.jpg" alt="Scene 2">
                     </button>
                     <button class="scene-button" data-video-index="8">
-                        <img src="assets/comparisons/sand_castle.png" alt="Scene 3">
+                        <img src="assets/comparisons/sand_castle.jpg" alt="Scene 3">
                     </button>
                     <button class="scene-button" data-video-index="12">
-                        <img src="assets/comparisons/to_water_duck.png" alt="Scene 4">
+                        <img src="assets/comparisons/to_water_duck.jpg" alt="Scene 4">
                     </button>
                     <button class="scene-button" data-video-index="16">
-                        <img src="assets/comparisons/venice.png" alt="Scene 5">
+                        <img src="assets/comparisons/venice.jpg" alt="Scene 5">
                     </button>
                 </div>
 
@@ -797,7 +821,7 @@
                 <div class="video-gallery-carousel" id="gallery-carousel-nvs">
                     <div class="video-gallery-item active">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/boat_river_action.png" 
+                            <img src="assets/comparisons/boat_river_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -815,7 +839,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/boat_river_action.png" 
+                            <img src="assets/comparisons/boat_river_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -823,7 +847,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/boat_river__0_2.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/boat_river__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -832,7 +856,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/boat_river_action.png" 
+                            <img src="assets/comparisons/boat_river_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -840,7 +864,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/boat_river__0_3.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/boat_river__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -849,7 +873,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/boat_river_action.png" 
+                            <img src="assets/comparisons/boat_river_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -857,7 +881,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/boat_river__0_4.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/boat_river__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -867,7 +891,7 @@
 
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/persimmon_action.png" 
+                            <img src="assets/comparisons/persimmon_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -875,7 +899,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/persimmon__0_1.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/persimmon__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -884,7 +908,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/persimmon_action.png" 
+                            <img src="assets/comparisons/persimmon_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -892,7 +916,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/persimmon__0_2.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/persimmon__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -901,7 +925,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/persimmon_action.png" 
+                            <img src="assets/comparisons/persimmon_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -909,7 +933,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/persimmon__0_3.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/persimmon__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -918,7 +942,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/persimmon_action.png" 
+                            <img src="assets/comparisons/persimmon_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -926,7 +950,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/persimmon__0_4.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/persimmon__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -936,7 +960,7 @@
 
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/sand_castle_action.png" 
+                            <img src="assets/comparisons/sand_castle_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -944,7 +968,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/sand_castle__0_1.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/sand_castle__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -953,7 +977,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/sand_castle_action.png" 
+                            <img src="assets/comparisons/sand_castle_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -961,7 +985,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/sand_castle__0_2.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/sand_castle__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -970,7 +994,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/sand_castle_action.png" 
+                            <img src="assets/comparisons/sand_castle_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -978,7 +1002,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/sand_castle__0_3.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/sand_castle__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -987,7 +1011,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/sand_castle_action.png" 
+                            <img src="assets/comparisons/sand_castle_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -995,7 +1019,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/sand_castle__0_4.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/sand_castle__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1005,7 +1029,7 @@
 
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/to_water_duck_action.png" 
+                            <img src="assets/comparisons/to_water_duck_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1013,7 +1037,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/to_water_duck__0_1.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/to_water_duck__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1022,7 +1046,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/to_water_duck_action.png" 
+                            <img src="assets/comparisons/to_water_duck_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1030,7 +1054,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/to_water_duck__0_2.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/to_water_duck__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1039,7 +1063,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/to_water_duck_action.png" 
+                            <img src="assets/comparisons/to_water_duck_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1047,7 +1071,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/to_water_duck__0_3.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/to_water_duck__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1056,7 +1080,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/to_water_duck_action.png" 
+                            <img src="assets/comparisons/to_water_duck_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1064,7 +1088,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/to_water_duck__0_4.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/to_water_duck__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1074,7 +1098,7 @@
 
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/venice_action.png" 
+                            <img src="assets/comparisons/venice_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1082,7 +1106,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/venice__0_1.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/venice__0_1.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1091,7 +1115,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/venice_action.png" 
+                            <img src="assets/comparisons/venice_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1099,7 +1123,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/venice__0_2.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/venice__0_2.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1108,7 +1132,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/venice_action.png" 
+                            <img src="assets/comparisons/venice_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1116,7 +1140,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/venice__0_3.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/venice__0_3.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1125,7 +1149,7 @@
                     </div>
                     <div class="video-gallery-item">
                         <div style="margin-bottom: 1rem; text-align: center;">
-                            <img src="assets/comparisons/venice_action.png" 
+                            <img src="assets/comparisons/venice_action.jpg" 
                                  alt="Action visualization" 
                                  style="width: 300px; height: auto;">
                             <p class="instruction-text-center">
@@ -1133,7 +1157,7 @@
                             </p>
                         </div>
                         <video preload="none" controls muted loop height="100%">
-                            <source src="assets/comparisons/venice__0_4.mp4" type="video/mp4">
+                            <source data-src="assets/comparisons/venice__0_4.mp4" type="video/mp4">
                         </video>
                         <div class="video-caption">
                             <div class="caption-left">WonderPlay (Ours)</div>
@@ -1153,8 +1177,8 @@
                 <h2 class="title is-2">Interactive Viewer of Generated Dynamic 3D Scene</h2>
                 <figure class="image">
                     <figcaption>
-                        View the generated dynamic scene in the interactive viewer below. Navigate with your keyboard.
-                        We extend the generated scene beyond what are in the input image by the <a href="https://kovenyu.com/wonderworld/" target="_blank">WonderWorld</a> approach to create a mini world.
+                        View the generated dynamic scene in the interactive viewer below.
+                        We extend the generated scene beyond the input image by the <a href="https://kovenyu.com/wonderworld/" target="_blank">WonderWorld</a> approach to create a mini world.
                         <br>
                         <strong>Keyboard</strong>: Move by "W/A/S/D", look around by "I/J/K/L".
                         <br>
@@ -1165,17 +1189,19 @@
 
                 <div class="image-canvas-combo">
                     <div class="image-container" style="max-width: 256px;">
-                        <img src="assets/venice_w_icon.png" alt="Demo Image">
-                        <p class="instruction-text-center" style="margin-top: 0.5rem;">
-                            Input Image & Action
+                        <button id="canvas-load-button" class="canvas-load-button" style="background: none; border: none; padding: 0;">
+                            <img src="assets/venice_w_icon.jpg" alt="Demo Image">
+                        </button>
+                        <p class="instruction-text-center" style="margin-top: 0.5rem;" id="canvas-button-text">
+                            Click to Load the Viewer
                         </p>
                     </div>
                     <div class="canvas-container" style="max-width: 720px;">
-                        <!-- <div id="message" style="color: red; text-align: center;"></div> -->
-                        <!-- <div id="spinner" style="text-align: center; display: none;">Loading...</div> -->
-                        <canvas id="canvas" width="720" height="480"></canvas>
-                        <p class="instruction-text-center" style="margin-top: 0.5rem;">
-                            Interactive Viewer
+                        <div id="message" style="color: #666; text-align: center; display: none;">Loading...</div>
+                        <div id="spinner" style="text-align: center; display: none;">Loading...</div>
+                        <canvas id="canvas" width="720" height="480" style="background-color: #888; display: block;"></canvas>
+                        <p class="instruction-text-center" style="margin-top: 0.5rem;" id="canvas-instructions">
+                            Interactive Viewer (Click image to load)
                         </p>
                     </div>
                 </div>
@@ -1200,6 +1226,24 @@
     </section>
     <!--End abstract -->
 
+    <!-- Approach -->
+    <section class="hero is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h2 class="title is-2">Approach</h2>
+                <figure class="image">
+                    <div style="max-width: 1200px; margin: 0 0 1rem 0;">
+                        <img src="assets/method.jpg" alt="WonderPlay Method Overview" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <figcaption>
+                        Given a single image, we first reconstruct the 3D scene and estimate material properties. Then our hybrid generative simulator uses physics solver and input actions to infer coarse 3D dynamics. The simulated appearance and motion signals are used to condition the video generator through spatially varying bimodal control to synthesize the realistic motion. The dynamic 3D scene is refined using the synthesized video, finishing the hybrid generative simulation.
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+    <!--End Approach -->
+
     <!--Related Projects -->
     <section class="hero is-small">
         <div class="hero-body">
@@ -1220,7 +1264,7 @@
         <div class="hero-body">
             <div class="container">
                 <h2 class="title is-2">BibTex</h2>
-                <div class="bibtex-container">
+                <div class="bibtex-container", style="width: 90%;">
                     <button id="bibtex-copy-button" class="button is-small is-info" style="position: absolute; top: 0.5rem; right: 0.5rem;">
                         <span class="icon">
                             <i class="fas fa-copy"></i>
@@ -1242,6 +1286,23 @@
     <div style="margin-bottom: 5rem;"></div>
 
     <script src="static/js/canvas_blink.js"></script>
+    <!-- Default Statcounter code for WonderPlay
+https://kyleleey.github.io/WonderPlay/ -->
+<script type="text/javascript">
+    var sc_project=13138052; 
+    var sc_invisible=1; 
+    var sc_security="16141be4"; 
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js"
+    async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics"
+    href="https://statcounter.com/" target="_blank"><img
+    class="statcounter"
+    src="https://c.statcounter.com/13138052/0/16141be4/1/"
+    alt="Web Analytics"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    <!-- End of Statcounter Code -->
 </body>
 
 </html>

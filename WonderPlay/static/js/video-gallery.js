@@ -1,4 +1,14 @@
 const VideoGallery = (function() {
+    // Function to load a video lazily
+    function loadVideo(video) {
+        const source = video.querySelector('source[data-src]');
+        if (source) {
+            source.src = source.dataset.src;
+            source.removeAttribute('data-src');
+            video.load();
+        }
+    }
+
     function handleVideoSwitch(galleryId, index, galleryType) {
         const container = document.getElementById(galleryId);
         const items = container.querySelectorAll('.video-gallery-item');
@@ -12,6 +22,8 @@ const VideoGallery = (function() {
                     item.classList.add('active');
                     const video = item.querySelector('video');
                     if (video) {
+                        // Load video lazily if not already loaded
+                        loadVideo(video);
                         video.currentTime = 0;
                         video.muted = true;
                         video.play().catch(error => {
@@ -42,6 +54,8 @@ const VideoGallery = (function() {
                     item.classList.add('active');
                     const video = item.querySelector('video');
                     if (video) {
+                        // Load video lazily if not already loaded
+                        loadVideo(video);
                         video.currentTime = 0;
                         video.muted = true;
                         video.play().catch(error => {
@@ -77,6 +91,8 @@ const VideoGallery = (function() {
                     item.classList.add('active');
                     const video = item.querySelector('video');
                     if (video) {
+                        // Load video lazily if not already loaded
+                        loadVideo(video);
                         video.currentTime = 0;
                         video.muted = true;
                         video.play().catch(error => {
@@ -109,12 +125,12 @@ const VideoGallery = (function() {
         const container = document.getElementById(galleryCarouselId);
         if (!container) return;
 
-        // Ensure all videos are loaded and ready
-        const videos = container.querySelectorAll('.video-gallery-item video');
-        videos.forEach(video => {
-            video.load();
-            video.muted = true;
-        });
+        // Only load the first video initially (the active one)
+        const firstVideo = container.querySelector('.video-gallery-item.active video');
+        if (firstVideo) {
+            loadVideo(firstVideo);
+            firstVideo.muted = true;
+        }
 
         if (galleryType === 'results') {
             // Handle Results section
@@ -175,9 +191,7 @@ const VideoGallery = (function() {
         }
 
         // Play the first video
-        const firstVideo = container.querySelector('.video-gallery-item.active video');
         if (firstVideo) {
-            firstVideo.muted = true;
             firstVideo.play().catch(error => {
                 console.log("Initial autoplay was prevented:", error);
             });
