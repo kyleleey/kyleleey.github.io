@@ -1,7 +1,7 @@
 /* ======= Animation config ======= */
-const DATA_DIR   = "./assets/splats/";           // where all splats live
+const DATA_DIR   = "./assets/splats/venice/";           // where all splats live
 const STATIC_FN  = "static.splat";
-const T          = 49;                     // number of dynamic frames
+const T          = 30;                     // number of dynamic frames
 const FRAME_FMT  = f => `${String(f).padStart(3,"0")}_dynamic.splat`;
 const PLAY_FPS   = 30; // 10;                      // playback speed
 let FRAME_SYNC_ENABLED = false; // true;  // Enable frame synchronization
@@ -349,10 +349,11 @@ function createWorker(self) {
             if (depth > maxDepth) maxDepth = depth;
             if (depth < minDepth) minDepth = depth;
         }
-
+        
         // This is a 16 bit single-pass counting sort
         let depthInv = (256 * 256) / (maxDepth - minDepth);
         let counts0 = new Uint32Array(256 * 256);
+
         for (let i = 0; i < vertexCount; i++) {
             sizeList[i] = ((sizeList[i] - minDepth) * depthInv) | 0;
             counts0[sizeList[i]]++;
@@ -627,15 +628,15 @@ async function main() {
     let projectionMatrix;
     viewMatrix = defaultViewMatrix;
 
-    movement = [-0.5,0,0.3];
+    movement = [-0.01,0.0,0.5];
     bbox = [
-        -0.1, 0.1,
-        -0.2, 0.2,
-        -0.1, 0.1,
-        -0.1, 0.1
+        -0.05, 0.1,
+        -0.05, 0.05,
+        -0.1, 0.05,
+        -0.05, 0.05
     ];
     // active_camera.fx = active_camera.fy = 960;
-    active_camera.fx = active_camera.fy = 800;
+    active_camera.fx = active_camera.fy = 900;
     radius = 9999;
     yaw = 0;
 
