@@ -1,7 +1,9 @@
 /* ======= Animation config ======= */
-const DATA_DIR   = "./assets/splats/venice/";           // where all splats live
+// const DATA_DIR   = "./assets/splats/venice/";           // where all splats live
+let DATA_DIR   = "./assets/splats/venice/";           // where all splats live
 const STATIC_FN  = "static.splat";
-const T          = 30;                     // number of dynamic frames
+// const T          = 30;                     // number of dynamic frames
+let T = 30;
 const FRAME_FMT  = f => `${String(f).padStart(3,"0")}_dynamic.splat`;
 const PLAY_FPS   = 30; // 10;                      // playback speed
 let FRAME_SYNC_ENABLED = false; // true;  // Enable frame synchronization
@@ -41,6 +43,54 @@ const cameras = [
         fx: 960,
     }
 ];
+
+const sceneConfigs = {
+    venice: {
+        DATA_DIR: "./assets/splats/venice/",
+        T: 30,
+        movement: [-0.01,0.0,0.5],
+        yaw: 0,
+        pitch: 0,
+        bbox: [
+            -0.05, 0.1,
+            -0.05, 0.05,
+            -0.1, 0.05,
+            -0.05, 0.05
+        ],
+        fx: 900,
+        radius: 9999,
+    },
+    smoke: {
+        DATA_DIR: "./assets/splats/smoke/",
+        T: 30,
+        movement: [0.0, 0.0, -0.05],
+        yaw: 0,
+        pitch: 0,
+        bbox: [
+            -0.02, 0.02,
+            -0.1, 0.1,
+            -0.05, 0.05,
+            -0.03, 0.03
+        ],
+        fx: 1100,
+        radius: 9999,
+    },
+    jam: {
+        DATA_DIR: "./assets/splats/jam/",
+        T: 36,
+        movement: [0.0, 0.0, 0.05],
+        yaw: 0,
+        pitch: 0,
+        bbox: [
+            -0.02, 0.02,
+            -0.1, 0.1,
+            -0.05, 0.05,
+            -0.03, 0.03
+        ],
+        fx: 800,
+        radius: 9999,
+    }
+};
 
 function getProjectionMatrix(fx, fy, width, height) {
     const znear = 0.01;
@@ -513,18 +563,103 @@ async function fetchUint8(url) {
     return new Uint8Array(await r.arrayBuffer());
 }
 
+// Track the current animation frame request so we can cancel it
+let currentAnimationFrame = null;
+
+// Function to completely clear the scene and stop all rendering
+function clearScene() {
+    // Cancel any running animation frames
+    if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
+        currentAnimationFrame = null;
+    }
+    
+    // Clear worker state
+    if (window.worker) {
+        // Send an empty buffer with zero vertices
+        const emptyBuffer = new Uint8Array(0);
+        window.worker.postMessage({
+            buffer: emptyBuffer.buffer,
+            vertexCount: 0
+        });
+        
+        // Explicitly clear the worker
+        window.worker.postMessage({ clear: true });
+        
+        // Terminate the worker completely
+        window.worker.terminate();
+        window.worker = null;
+    }
+    
+    // Reset global state variables
+    window.vertexCount = 0;
+    window.currentFrameProcessing = false;
+    window.frameIdx = 0;
+}
+
+// Modified applySceneConfig to properly clear the scene
+function applySceneConfig(sceneName) {
+    if (!sceneConfigs[sceneName]) {
+        console.error(`Scene config "${sceneName}" not found`);
+        return false;
+    }
+    
+    // Update UI elements first
+    const message = document.getElementById("message");
+    const spinner = document.getElementById("spinner");
+    if (message) {
+        message.style.display = "block";
+        message.innerText = `Clearing previous scene...`;
+    }
+    if (spinner) spinner.style.display = "block";
+    
+    // First, completely clear the current scene
+    clearScene();
+    
+    // Then update configuration with a delay to ensure cleanup is complete
+    setTimeout(() => {
+        const config = sceneConfigs[sceneName];
+        
+        // Update global variables with scene config
+        DATA_DIR = config.DATA_DIR;
+        T = config.T;
+        movement = [...config.movement];
+        yaw = config.yaw;
+        pitch = config.pitch;
+        bbox = [...config.bbox];
+        const fxValue = config.fx;
+        radius = config.radius;
+        
+        // Store the selected fx for main() to use
+        window.selectedFx = fxValue;
+        
+        if (message) {
+            message.innerText = `Loading ${sceneName} scene...`;
+        }
+        
+        // Now load the new scene
+        main().catch(err => {
+            console.error(`Error loading ${sceneName} scene:`, err);
+            if (message) message.innerText = err.toString();
+            if (spinner) spinner.style.display = "none";
+        });
+    }, 200); // Use a longer delay to ensure cleanup completes
+    
+    return true;
+}
+
 async function main() {
     /* ---------------- DOM helpers ---------------- */
     const canvas      = document.getElementById("canvas");
     const messageEl   = document.getElementById("message");
     const spinnerEl   = document.getElementById("spinner");
-
+    
     /* ---------------- download splats ---------------- */
     if (spinnerEl) spinnerEl.style.display = "block";
     if (messageEl) messageEl.innerText = "Downloading splats…";
-
-    // Load static and dynamic data once at the beginning
-    const staticBytes = await fetchUint8(DATA_DIR + STATIC_FN);            // Uint8Array
+    
+    // Start with fresh data downloads
+    const staticBytes = await fetchUint8(DATA_DIR + STATIC_FN);
     
     // Show progress for dynamic frames
     if (messageEl) messageEl.innerText = "Downloading dynamic frames...";
@@ -615,6 +750,12 @@ async function main() {
 
     /* ---------------- camera ---------------- */
     let active_camera = JSON.parse(JSON.stringify(cameras[0]));
+    
+    // Use the fx value from selected scene config if available
+    if (window.selectedFx) {
+        active_camera.fx = active_camera.fy = window.selectedFx;
+    }
+    
     const use_intrinsics = (cam) => {
         gl.uniform2fv(u_focal, new Float32Array([cam.fx, cam.fy]));
         const proj = getProjectionMatrix(cam.fx, cam.fy, render_width, render_height);
@@ -628,24 +769,12 @@ async function main() {
     let projectionMatrix;
     viewMatrix = defaultViewMatrix;
 
-    movement = [-0.01,0.0,0.5];
-    bbox = [
-        -0.05, 0.1,
-        -0.05, 0.05,
-        -0.1, 0.05,
-        -0.05, 0.05
-    ];
-    // active_camera.fx = active_camera.fy = 960;
-    active_camera.fx = active_camera.fy = 900;
-    radius = 9999;
-    yaw = 0;
-
     use_intrinsics(active_camera);
     use_extrinsics(active_camera);
 
     /* ---------------- worker setup ---------------- */
     // Create a modified worker that better handles memory
-    const modifiedWorkerCode = createWorker.toString().replace(
+    const workerCode = createWorker.toString().replace(
         'self.onmessage = (e) => {',
         `self.onmessage = (e) => {
             // Reset state when receiving a clear command
@@ -664,16 +793,45 @@ async function main() {
         `
     );
     
-    const worker = new Worker(URL.createObjectURL(new Blob([`(${modifiedWorkerCode})(self)`], { type: "application/javascript" })));
+    const worker = new Worker(URL.createObjectURL(new Blob([`(${workerCode})(self)`], { type: "application/javascript" })));
+    window.worker = worker; // Make it globally accessible for cleanup
     
     let vertexCount = 0;
     let currentFrameProcessing = false;
     let lastFrameProcessed = -1;
     
-    // Function to reset worker state - useful for handling memory issues
+    // Improved resetWorker function to clear data more completely
     function resetWorker() {
+        // Clear the worker state
         worker.postMessage({ clear: true });
+        
+        // Clear vertex data
+        const emptyBuffer = new Uint8Array(0);
+        worker.postMessage({
+            buffer: emptyBuffer.buffer,
+            vertexCount: 0,
+        });
+        
+        // Reset vertex count to avoid rendering artifacts
+        vertexCount = 0;
+        
+        // Reset frame processing state
         currentFrameProcessing = false;
+        
+        // Clear WebGL texture and index buffer to prevent showing old data
+        if (gl) {
+            // Clear the texture by uploading a 1x1 empty texture
+            const emptyTexture = new Uint32Array(4);
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, 1, 1, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, emptyTexture);
+            
+            // Clear the index buffer
+            gl.bindBuffer(gl.ARRAY_BUFFER, indexBuf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Uint32Array(0), gl.DYNAMIC_DRAW);
+            
+            // Clear the screen
+            gl.clear(gl.COLOR_BUFFER_BIT);
+        }
     }
     
     // Handler for worker messages with improved error recovery
@@ -825,7 +983,7 @@ async function main() {
 
     // Modified loop with improved memory management
     const loop = (now) => {
-        requestAnimationFrame(loop);
+        currentAnimationFrame = requestAnimationFrame(loop);
         
         // Calculate and display actual FPS
         frameCount++;
@@ -988,15 +1146,38 @@ async function main() {
         currentFrameProcessing = false;
     }
     
-    // Start the loop
-    requestAnimationFrame(loop);
+    // Start the loop with a tracked animation frame
+    currentAnimationFrame = requestAnimationFrame(loop);
 }
 
 // Lazy loading: only start canvas when button is clicked
 let canvasLoaded = false;
 
-function initCanvas() {
-    if (canvasLoaded) return;
+// Function to update scene buttons state
+function updateSceneButtonsState(selectedScene) {
+    const buttons = document.querySelectorAll('.canvas-load-button');
+    buttons.forEach(btn => {
+        if (btn.dataset.scene === selectedScene) {
+            btn.style.opacity = '0.7';
+            btn.style.pointerEvents = 'none';
+        } else {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+        }
+    });
+}
+
+// Modified initCanvas function to support scene selection
+function initCanvas(sceneName = 'venice') {
+    if (canvasLoaded && !sceneName) return;
+    
+    if (canvasLoaded && sceneName) {
+        // If already loaded, just switch scene
+        applySceneConfig(sceneName);
+        updateSceneButtonsState(sceneName);
+        return;
+    }
+    
     canvasLoaded = true;
     
     // Update UI elements but keep the image visible
@@ -1005,20 +1186,19 @@ function initCanvas() {
     const spinner = document.getElementById("spinner");
     const instructions = document.getElementById("canvas-instructions");
     const buttonText = document.getElementById("canvas-button-text");
-    const button = document.getElementById("canvas-load-button");
     
-    // Remove click handler from button to prevent multiple loads
-    if (button) {
-        button.style.pointerEvents = 'none';
-        button.style.opacity = '0.7';
-    }
+    // Update scene buttons state
+    updateSceneButtonsState(sceneName);
     
     // Update text content
     if (buttonText) buttonText.innerText = "Loading Interactive Viewer...";
     if (instructions) instructions.innerText = "Interactive Viewer (Loading...)";
     
     // Show loading indicators
-    if (message) message.style.display = "block";
+    if (message) {
+        message.style.display = "block";
+        message.innerText = `Loading ${sceneName} scene...`;
+    }
     if (spinner) spinner.style.display = "block";
     
     // Clear the grey background and prepare for content
@@ -1026,28 +1206,20 @@ function initCanvas() {
         canvas.style.backgroundColor = 'transparent';
     }
     
-    // Start loading the canvas
-    main().catch((err) => {
-        console.error(err);
-        const m = document.getElementById("message");
-        if (m) m.innerText = err.toString();
-        const s = document.getElementById("spinner");
-        if (s) s.style.display = "none";
-        
-        // Reset button state on error
-        if (button) {
-            button.style.pointerEvents = 'auto';
-            button.style.opacity = '1';
-        }
-        if (buttonText) buttonText.innerText = "Click to Load Interactive Viewer";
-        canvasLoaded = false;
-    });
+    // Apply scene configuration
+    applySceneConfig(sceneName);
 }
 
-// Set up button click handler when DOM is ready
+// Set up button click handlers when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById("canvas-load-button");
-    if (button) {
-        button.addEventListener('click', initCanvas);
-    }
+    // Get all scene buttons
+    const sceneButtons = document.querySelectorAll('.canvas-load-button');
+    
+    // Add click handlers to each button
+    sceneButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const sceneName = this.dataset.scene;
+            initCanvas(sceneName);
+        });
+    });
 });
