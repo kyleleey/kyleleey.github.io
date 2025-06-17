@@ -139,3 +139,29 @@
     margin: 0 0.2em;  /* Add small space around icon */
     display: inline;  /* Changed from inline-block */
 }
+
+/* Add to teaser.css */
+.mobile-teaser-video {
+    display: none; /* Hidden by default */
+    width: 100%;
+    margin: 0 auto;
+}
+
+.mobile-teaser-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Add to teaser.css */
+@media screen and (max-width: 768px) {
+    .mobile-teaser-video {
+        display: block; /* Show on mobile */
+    }
+    
+    .teaser-instructions,
+    .teaser-container,
+    .teaser-title {  /* Add this line */
+        display: none; /* Hide on mobile */
+    }
+}
