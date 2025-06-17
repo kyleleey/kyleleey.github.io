@@ -153,15 +153,22 @@
     display: block;
 }
 
-/* Add to teaser.css */
+/* Desktop view (default) */
+.teaser-title,
+.teaser-instructions,
+.teaser-container {
+    display: block;
+}
+
+/* Mobile view */
 @media screen and (max-width: 768px) {
     .mobile-teaser-video {
-        display: block; /* Show on mobile */
+        display: block !important; /* Force show on mobile */
     }
     
+    .teaser-title,
     .teaser-instructions,
-    .teaser-container,
-    .teaser-title {  /* Add this line */
-        display: none; /* Hide on mobile */
+    .teaser-container {
+        display: none !important; /* Force hide on mobile */
     }
 }
