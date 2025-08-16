@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Emit smoke",
       "Breeze mildly towards left",
       "Breeze strongly towards right",
-      "Breeze strongly towards left & right"
+      "Breeze strongly towards left"
     ],
     2: [ // Clothes scene
       "Breeze towards left",
