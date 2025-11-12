@@ -1300,11 +1300,11 @@
             <div class="container">
                 <h2 class="title is-2">BibTex</h2>
                 <div class="bibtex-container", style="width: 90%;">
-                    <button id="bibtex-copy-button" class="button is-small is-info" style="position: absolute; top: 0.5rem; right: 0.5rem;">
+                    <button onclick="copyToClipboard()" id="bibtex-copy-button" class="button is-small is-info" style="position: absolute; top: 0.5rem; right: 0.5rem;">
                         <span class="icon">
                             <i class="fas fa-copy"></i>
                         </span>
-                        <span>Copy</span>
+                        <!-- <span>Copy</span> -->
                     </button>
                     <pre class="bibtex-code-block"><code id="bibtex-code" class="bibtex-code">@InProceedings{li2025wonderplay,
     title     = {WonderPlay: Dynamic 3D Scene Generation from a Single Image and Actions},
@@ -1321,6 +1321,43 @@
     <div style="margin-bottom: 5rem;"></div>
 
     <script src="static/js/canvas_blink.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const videos = document.querySelectorAll('video[muted][loop]');
+
+            const options = {
+                root: null, 
+                threshold: 0.5 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.play();
+                    } else {
+                        entry.target.pause();
+                        entry.target.currentTime = 0; 
+                    }
+                });
+            }, options);
+
+            videos.forEach(video => {
+                observer.observe(video);
+            });
+        });
+
+        function copyToClipboard() {
+            var copyText = document.getElementById("bibtex-code");
+            navigator.clipboard.writeText(copyText.textContent).then(function() {
+                alert("Citation copied to clipboard!");
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+    </script>
+
     <!-- Default Statcounter code for WonderPlay
 https://kyleleey.github.io/WonderPlay/ -->
 <script type="text/javascript">
