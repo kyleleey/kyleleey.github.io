@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning the 3D Fauna of the Web</title>
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <!-- <script src="./static/js/index.js"></script> -->
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      
+      <br>
+
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title" style="font-size: 2.2rem;">ART: Articulated Reconstruction Transformer</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://kyleleey.github.io/">Zizhang Li</a><sup>1,2*</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://holmes969.github.io/">Cheng Zhang</a><sup>2</sup></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://sites.google.com/view/zhengqinli">Zhengqin Li</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://henryhj.github.io/">Henry Howard-Jenkins</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://lvzhaoyang.github.io/">Zhaoyang Lv</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://chen-geng.com/">Chen Geng</a><sup>1</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://jiajunwu.com/">Jiajun Wu</a><sup>1</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://rapiderobot.bitbucket.io/">Richard Newcombe</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://jakobengel.github.io/">Jakob Engel</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block">
+              <a href="https://flycooler.com/">Zhao Dong</a><sup>2</sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Stanford University</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>Reality Labs Research, Meta</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+
+          <div class="is-size-6 publication-authors">
+            <span class="author-block">(* Work done during internship at Meta)</span>
+          </div>
+
+          <!-- PDF Link. -->
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/xxxx.xxxxx"
+               class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fas fa-file-pdf"></i>
+              </span>
+              <span>Paper</span>
+            </a>
+          </span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <td style="padding:20px;width:35%;vertical-align:middle">
+        <img src='resources/teaser.png' width="900">
+      </td>
+      
+      <h2 class="subtitle">
+        <center>
+          <b>ART</b> is a feed-forward model that reconstructs 3D articulated objects in a part-based manner.
+        </center>
+        
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+      <div class="column is-full-width has-text-centered">
+        <h2 class="title is-3">Reconstructed Articulated Objects</h2>
+
+        <div class="content has-text-centered">
+          <p>
+            ART predicts the <b>geometry, texture, articulation structure</b> of each part in the articulated object from image inputs.
+          </p>
+        </div>
+
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/video_fix.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+        <div class="content has-text-centered">
+          <video id="horse-real" autoplay controls muted preload loop playsinline>
+            <source src="resources/video_rotate.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+        <br><br>
+
+        <h2 class="title is-3">Export into Simulator</h2>
+        <div class="content has-text-justified">
+          <p>
+            Based on the part-based reconstruction, ART's reconstructed object can be directly transformed to URDF format 
+            and exported into existing simulators, enabling further embodied AI applications, e.g. humanoid interactions.
+          </p>
+        </div>
+        <div class="content has-text-centered" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <video id="asset01" autoplay controls muted preload loop playsinline style="width: 30%; min-width: 250px;">
+            <source src="resources/asset01.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="asset02" autoplay controls muted preload loop playsinline style="width: 30%; min-width: 250px;">
+            <source src="resources/asset02.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="asset03" autoplay controls muted preload loop playsinline style="width: 30%; min-width: 250px;">
+            <source src="resources/asset03.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <br>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce ART, Articulated Reconstruction Transformer—a category-agnostic, feed-forward model that 
+            reconstructs complete 3D articulated objects from only sparse, multi-state RGB images. 
+            Previous methods for articulated object reconstruction either rely on slow optimization with 
+            fragile cross-state correspondences or use feed-forward models limited to specific object categories. 
+            In contrast, ART treats articulated objects as assemblies of rigid parts, formulating reconstruction 
+            as a part-based prediction problem. Our newly designed transformer architecture maps sparse image inputs 
+            to a set of learnable part slots, from which ART jointly decodes unified representations for individual parts, 
+            including their 3D geometry, texture, and explicit articulation parameters. 
+            The resulting reconstructions are physically interpretable and readily exportable to standard simulation formats. 
+            Trained on a large-scale, diverse dataset with per-part supervision, and evaluated across diverse benchmarks, 
+            ART achieves significant improvements over existing baselines and establishes a new state of the art for 
+            articulated object reconstruction from image inputs.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <br><br>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Overview</h2>
+        <td style="padding:20px;width:35%;vertical-align:middle">
+          <img src='resources/overview.png' width="900">
+        </td>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <div class="content has-text-justified">
+          <p>
+          <b>ART</b> overview.
+          Multi-view, multi-state image inputs with known camera poses are tokenized and processed by
+          a transformer alongside learnable part slot tokens. 
+          Two separate decoders then predict each part's geometry, texture and the articulation
+          structure. These components can be further composed and rendered to construct the 
+          articulated object at different states.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{li2025art,
+  title     = {ART: Articulated Reconstruction Transformer},
+  author    = {Li, Zizhang and Zhang, Cheng and Li, Zhengqin and Howard-Jenkins, Henry and Lv, Zhaoyang and Geng, Chen and Wu, Jiajun and Newcombe, Richard and Engel, Jakob and Dong, Zhao},
+  journal   = {arXiv preprint arXiv:xxxx.xxxxx},
+  year      = {2025}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This webpage template is adapted from <a
+            href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
