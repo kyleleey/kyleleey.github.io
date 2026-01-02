@@ -24,6 +24,11 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
+  <!-- Three.js for GLB viewer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="./static/js/GLTFLoader.js"></script>
+  <script src="./static/js/OrbitControls.js"></script>
+  <script src="./static/js/glb-viewer.js" defer></script>
   <!-- <script src="./static/js/index.js"></script> -->
 </head>
 <body>
@@ -141,6 +146,93 @@
             <source src="resources/video_rotate.mp4"
                     type="video/mp4">
           </video>
+        </div>
+        <br>
+
+        <br><br>
+
+        <h2 class="title is-3">Interactive 3D Viewer</h2>
+        <div class="content has-text-justified">
+          <p>
+            Explore the reconstructed 3D articulated object: <b>rotate</b> (left-click and drag), 
+            <b>zoom</b> (scroll wheel), and <b>pan</b> (right-click and drag).
+          </p>
+        </div>
+        
+        <!-- GLB Viewer Carousel -->
+        <div class="content has-text-centered">
+          <div class="glb-carousel-wrapper">
+            <button class="glb-carousel-nav glb-carousel-nav-left" id="glb-carousel-prev" aria-label="Previous">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="glb-carousel-container">
+              <div class="glb-carousel-viewers" id="glb-carousel-viewers">
+                <!-- GLB Viewer 1 -->
+                <div class="glb-viewer-container glb-viewer-item active" 
+                     data-glb-path="resources/glbs/obj1.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 2 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj2.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 3 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj3.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 4 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj4.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 5 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj5.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 6 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj6.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 7 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj7.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+                
+                <!-- GLB Viewer 8 -->
+                <div class="glb-viewer-container glb-viewer-item" 
+                     data-glb-path="resources/glbs/obj8.glb"
+                     data-scale="2.0" 
+                     style="max-width: 800px;" 
+                     data-height="400px"></div>
+              </div>
+            </div>
+            
+            <button class="glb-carousel-nav glb-carousel-nav-right" id="glb-carousel-next" aria-label="Next">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          
+          <!-- Carousel indicators (dots) -->
+          <div class="glb-carousel-indicators" id="glb-carousel-indicators"></div>
         </div>
         <br>
 
