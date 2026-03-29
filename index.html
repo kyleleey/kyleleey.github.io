@@ -43,8 +43,20 @@
                 <a href="https://scholar.google.com/citations?hl=en&user=uVtphHMAAAAJ">Google Scholar</a> &nbsp/&nbsp
                 <a href="https://github.com/kyleleey/">Github</a> &nbsp/&nbsp
                 <a href="https://twitter.com/zizhang_li">Twitter</a> &nbsp/&nbsp
-                <a href="https://www.linkedin.com/in/zizhang-li-64629b2a4/">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/zizhang-li-64629b2a4/">LinkedIn</a> &nbsp/&nbsp
+                <button type="button" class="misc-toggle" id="misc-toggle" aria-expanded="false" aria-controls="misc-panel">Misc</button>
               </p>
+              <div id="misc-panel-wrap" class="misc-panel-wrap" aria-hidden="true">
+                <div class="misc-panel-inner">
+                  <div id="misc-panel" class="misc-panel" role="region" aria-label="Miscellaneous">
+                    <p>
+                      I spent most of my time watching all sorts of movies and TV shows.
+                      <br>
+                      I also do research on driving and drinking milk tea.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </td>
             <td style="padding:5%;width:30%;max-width:30%">
               <a href="images/Zizhang_Li.jpg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/Zizhang_Li.jpg" class="hoverZoomLink"></a>
@@ -105,12 +117,13 @@
         </tr>
         </tbody></table>
 
+        <div class="site-publications">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-            <td style="padding:20px;width:35%;vertical-align:middle">
-              <img align='middle' src="images/2026ART_Li.gif" alt="ART" style="width:auto; height:auto; max-width:80%;">
+            <td class="pub-fig">
+              <img align='middle' src="images/2026ART_Li.gif" alt="ART">
             </td>
-            <td width="75%" valign="middle">
+            <td class="pub-desc">
                 <a href="https://arxiv.org/abs/2512.14671">
                     <papertitle>ART: Articulated Reconstruction Transformer</papertitle>
                 </a>
@@ -140,10 +153,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-            <td style="padding:20px;width:35%;vertical-align:middle">
-              <img align='middle' src="images/2026PerpetualWonder_Zhan.gif" alt="PerpetualWonder" style="width:auto; height:auto; max-width:80%;">
+            <td class="pub-fig">
+              <img align='middle' src="images/2026PerpetualWonder_Zhan.gif" alt="PerpetualWonder">
             </td>
-            <td width="75%" valign="middle">
+            <td class="pub-desc">
                 <a href="https://arxiv.org/abs/2602.04876">
                     <papertitle>PerpetualWonder: Long-Horizon Action-Conditioned 4D Scene Generation</papertitle>
                 </a>
@@ -168,10 +181,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-            <td style="padding:20px;width:35%;vertical-align:middle">
-              <img align='middle' src="images/2026Poe_Zhang.png" alt="Poe" style="width:auto; height:auto; max-width:80%;">
+            <td class="pub-fig">
+              <img align='middle' src="images/2026Poe_Zhang.png" alt="Poe">
             </td>
-            <td width="75%" valign="middle">
+            <td class="pub-desc">
                 <a href="https://arxiv.org/abs/2506.08894">
                     <papertitle>Product of Experts for Visual Generation</papertitle>
                 </a>
@@ -197,10 +210,10 @@
         
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <img align='middle' src="images/2025WonderPlay_Li.gif" alt="WonderPlay" style="width:auto; height:auto; max-width:80%;">
+              <td class="pub-fig">
+                <img align='middle' src="images/2025WonderPlay_Li.gif" alt="WonderPlay">
               </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2505.18151"> <!--TODO add link-->
                       <papertitle>WonderPlay: Dynamic 3D Scene Generation from a Single Image and Actions</papertitle>
                   </a>
@@ -229,10 +242,10 @@
         
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <img align='middle' src="images/2024_sclg_Zhang.gif" alt="SCLG" style="width:auto; height:auto; max-width:80%;">
+              <td class="pub-fig">
+                <img align='middle' src="images/2024_sclg_Zhang.gif" alt="SCLG">
               </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2410.16770"> <!--TODO add link-->
                       <papertitle>The Scene Language: Representing Scenes with Programs, Words, and Embeddings</papertitle>
                   </a>
@@ -260,10 +273,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle;">
-                <img align='middle' src="images/2024_3D_congealing_Zhang.gif" alt="3D-Congealing" style="width:auto; height:auto; max-width:80%;">
+              <td class="pub-fig">
+                <img align='middle' src="images/2024_3D_congealing_Zhang.gif" alt="3D-Congealing">
               </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2404.02125"> <!--TODO add link-->
                       <papertitle>3D Congealing: 3D-Aware Image Alignment in the Wild</papertitle>
                   </a>
@@ -290,13 +303,13 @@
         
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <img align='middle' src="images/2024Fauna_Li.gif" alt="3D-Fauna" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                <img align='middle' src="images/2024Fauna_Li.gif" alt="3D-Fauna">
                 <!-- <video autoplay loop muted playsinline width="320" height="100%" style="max-width: 100%;">
                   <source src="images/20230Fauna_Li.mp4" type="video/mp4" alt="3D-Fauna">
                 </video> -->
               </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2401.02400"> <!--TODO add link-->
                       <papertitle>Learning the 3D Fauna of the Web</papertitle>
                   </a>
@@ -327,10 +340,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                <img align='middle' src="images/2024Zeronvs_Sargent.gif" alt="zeronvs" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                <img align='middle' src="images/2024Zeronvs_Sargent.gif" alt="zeronvs">
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2310.17994"> <!--TODO add link-->
                       <papertitle>ZeroNVS: Zero-Shot 360-Degree View Synthesis from a Single Real Image</papertitle>
                   </a>
@@ -364,7 +377,7 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr onmouseout="rico_stop()" onmouseover="rico_start()">
-              <td style="padding:20px;width:35%;vertical-align:middle">
+              <td class="pub-fig">
                 <!-- <div class="one">
                   <div class="two" id = 'rico_shape'>
                     <img src='images/2023RICO_Li_after.png' width="250"></div>
@@ -378,12 +391,12 @@
                   }
                   rico_stop()
                   </script> -->
-                <img align='middle' src="images/2023RICO_Li.gif" alt="RICO" style="width:auto; height:auto; max-width:100%;">
+                <img align='middle' src="images/2023RICO_Li.gif" alt="RICO">
                 <!-- <video autoplay loop muted playsinline width="320" height="100%" style="max-width: 100%;">
                   <source src="images/2023RICO_Li.mp4" type="video/mp4" alt="RICO">
                 </video> -->
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2303.08605"> <!--TODO add link-->
                       <papertitle>RICO: Regularizing the Unobservable for Indoor Compositional Reconstruction</papertitle>
                   </a>
@@ -409,10 +422,10 @@
 
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
-                <td style="padding:20px;width:35%;vertical-align:middle">
-                    <img src='images/2023Occ-SDF_Lyu.gif' width="250" alt="occ-sdf" style="width:auto; height:auto; max-width:100%;">
+                <td class="pub-fig">
+                    <img src='images/2023Occ-SDF_Lyu.gif' alt="occ-sdf">
                         </td>
-                <td width="75%" valign="middle">
+                <td class="pub-desc">
                     <a href="https://arxiv.org/abs/2303.09152"> <!--TODO add link-->
                         <papertitle>Learning a Room with the Occ-SDF Hybrid: Signed Distance Function Mingled with Occupancy Aids Scene Representation</papertitle>
                     </a>
@@ -440,10 +453,10 @@
         
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                  <img src='images/2023ViLG_xu.png' width="250" alt="vilg" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                  <img src='images/2023ViLG_xu.png' alt="vilg">
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2302.12610"> <!--TODO add link-->
                       <papertitle>A Joint Modeling of Vision-Language-Action for Target-oriented Grasping in Clutter</papertitle>
                   </a>
@@ -471,10 +484,10 @@
 
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
-                <td style="padding:20px;width:35%;vertical-align:middle">
-                    <img src='images/2023FMP_xu.png' width="250" alt="fmp" style="width:auto; height:auto; max-width:100%;">
+                <td class="pub-fig">
+                    <img src='images/2023FMP_xu.png' alt="fmp">
                         </td>
-                <td width="75%" valign="middle">
+                <td class="pub-desc">
                     <a href="https://arxiv.org/abs/2302.13024">
                         <papertitle>Failure-aware Policy Learning for Self-assessable Robotics Tasks</papertitle>
                     </a>
@@ -501,10 +514,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                  <img src='images/2022_ENeRV_li.png' width="250" alt="enerv" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                  <img src='images/2022_ENeRV_li.png' alt="enerv">
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2207.08132">
                       <papertitle>E-NeRV: Expedite Neural Video Representation with Disentangled Spatial-Temporal Context</papertitle>
                   </a>
@@ -531,10 +544,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                  <img src='images/2021CGPart_liu.png' width="250" alt="cgpart" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                  <img src='images/2021CGPart_liu.png' alt="cgpart">
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                   <a href="https://arxiv.org/abs/2103.14098">
                       <papertitle>Learning Part Segmentation through Unsupervised Domain Adaptation from Synthetic Vehicles</papertitle>
                   </a>
@@ -565,10 +578,10 @@
 
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
-                <td style="padding:20px;width:35%;vertical-align:middle">
-                    <img src='images/2021MaIL_li.png' width="250" alt="mail" style="width:auto; height:auto; max-width:100%;">
+                <td class="pub-fig">
+                    <img src='images/2021MaIL_li.png' alt="mail">
                         </td>
-                <td width="75%" valign="middle">
+                <td class="pub-desc">
                     <a href="https://arxiv.org/abs/2111.10747">
                         <papertitle>MaIL: A Unified Mask-Image-Language Trimodal Network for Referring Image Segmentation</papertitle>
                     </a>
@@ -591,10 +604,10 @@
 
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
-              <td style="padding:20px;width:35%;vertical-align:middle">
-                  <img src='images/2021TrioNet_pi.png' width="250" alt="trionet" style="width:auto; height:auto; max-width:100%;">
+              <td class="pub-fig">
+                  <img src='images/2021TrioNet_pi.png' alt="trionet">
                       </td>
-              <td width="75%" valign="middle">
+              <td class="pub-desc">
                 <a href="https://arxiv.org/abs/2111.07547">
                   <papertitle>Searching for TrioNet: Combining Convolution with Local and Global Self-Attention</papertitle>
                 </a>
@@ -618,10 +631,10 @@
 
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr>
-                <td style="padding:20px;width:35%;vertical-align:middle">
-                    <img src='images/2021PAPLoss_tao.png' width="250" alt="paploss" style="width:auto; height:auto; max-width:100%;">
+                <td class="pub-fig">
+                    <img src='images/2021PAPLoss_tao.png' alt="paploss">
                         </td>
-                <td width="75%" valign="middle">
+                <td class="pub-desc">
                     <a>
                       <papertitle>Searching Parameterized AP Loss for Object Detection</papertitle>
                     </a>
@@ -646,6 +659,7 @@
             </tr> <!--2021paploss_tao-->
 
           </tbody></table>
+        </div>
 
           <hr>
 
@@ -698,6 +712,19 @@
   alt="Web Analytics Made Easy - Statcounter"
   referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
   <!-- End of Statcounter Code -->
+
+  <script>
+    (function () {
+      var btn = document.getElementById('misc-toggle');
+      var wrap = document.getElementById('misc-panel-wrap');
+      if (!btn || !wrap) return;
+      btn.addEventListener('click', function () {
+        var open = wrap.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        wrap.setAttribute('aria-hidden', open ? 'false' : 'true');
+      });
+    })();
+  </script>
 
 </body>
 

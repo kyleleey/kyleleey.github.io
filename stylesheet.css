@@ -74,6 +74,18 @@ a:hover {
   text-decoration: none;
 }
 
+/* Outer page width; --site-max is inherited for responsive publication columns */
+.site-wrap {
+  --site-max: 800px;
+  width: 100%;
+  max-width: var(--site-max);
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 body,
 td,
 th,
@@ -128,4 +140,96 @@ name {
 
 span.highlight {
   background-color: #ffffd0;
+}
+
+/* Misc expandable panel (opens top→bottom, closes bottom→top) */
+button.misc-toggle {
+  font-family: inherit;
+  font-size: inherit;
+  color: #1772d0;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button.misc-toggle:hover,
+button.misc-toggle:focus {
+  color: #f09228;
+  outline: none;
+}
+
+button.misc-toggle:focus-visible {
+  outline: 2px solid #1772d0;
+  outline-offset: 2px;
+}
+
+.misc-panel-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+
+.misc-panel-wrap.open {
+  grid-template-rows: 1fr;
+}
+
+.misc-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.misc-panel {
+  margin-top: 12px;
+  padding: 12px 14px;
+  text-align: left;
+  border: 1px solid #e0e4ea;
+  border-radius: 6px;
+  background: #fafbfc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.misc-panel p {
+  margin: 0;
+}
+
+/* Publications: column widths + thumbnails (see .pub-fig / .pub-desc in index.html) */
+.site-publications table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/*
+ * Match .site-wrap’s --site-max: at wide windows content is capped, so columns stay 35% / 75%.
+ * Ramps as the layout narrows below that width.
+ */
+.site-publications td.pub-fig {
+  padding: 20px;
+  vertical-align: middle;
+  width: clamp(
+    35%,
+    calc(
+      35% + (var(--site-max, 800px) - min(100vw, var(--site-max, 800px))) / 400px * 10%
+    ),
+    45%
+  );
+}
+
+.site-publications td.pub-desc {
+  vertical-align: middle;
+  width: clamp(
+    55%,
+    calc(
+      75% - (var(--site-max, 800px) - min(100vw, var(--site-max, 800px))) / 400px * 20%
+    ),
+    75%
+  );
+}
+
+.site-publications td.pub-fig img,
+.site-publications td.pub-fig video {
+  max-width: 90%;
+  height: auto;
 }
